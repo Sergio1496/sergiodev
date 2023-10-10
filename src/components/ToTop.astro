@@ -1,0 +1,61 @@
+---
+
+---
+
+<div class="fixed bottom-0 right-0 p-4">
+  <button
+    class="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center animate-bounce"
+    id="backbtn"
+    onclick="
+    Scrollback_topfunc();
+    "
+  >
+    <svg
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    </svg>
+  </button>
+</div>
+
+<script is:inline>
+var back_top_button = document.getElementById("backbtn");
+window.onscroll = function () {
+  scrollfunc();
+};
+
+function scrollfunc() {
+  if (
+    document.body.scrollTop > 10 ||
+    document.documentElement.scrollTop > 10
+  ) {
+    back_top_button.style.opacity = "1";
+    back_top_button.style.pointerEvents = "auto";
+  } else {
+    back_top_button.style.opacity = "0";
+    back_top_button.style.pointerEvents = "none";
+  }
+}
+function Scrollback_topfunc() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+<style>
+  #backbtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+  }
+</style>
