@@ -16,7 +16,6 @@ module.exports = {
     extend: {
       fontFamily: {
         josefin: ['"Josefin"', "sans-serif"],
-        Pacifico: ["Pacifico", "cursive"],
       },
     },
   },

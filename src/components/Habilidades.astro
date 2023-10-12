@@ -1,19 +1,20 @@
 <div
   class="max-w-screen-xl px-4 pb-8 mx-auto py-16 lg:pb-16 delay-[100ms] duration-[400ms] taos:translate-y-[200px] taos:opacity-0"
 >
-  <h3
-    class="text-white text-center pb-8 font-light text-4xl md:text-5xl lg:text-6xl font-Pacifico"
+  <h2
+    class="text-white text-center pb-8 font-light text-4xl md:text-5xl lg:text-6xl font-josefin"
   >
     Habilidades
-  </h3>
+  </h2>
   <div
-    class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 dark:text-gray-400 items-center"
+    class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 dark:text-gray-400 items-center transition delay-150 duration-300 ease-in-out"
   >
     <svg
       class="h-12 hover:text-blue-400"
       xmlns="http://www.w3.org/2000/svg"
       width="50"
       height="50"
+      data-tooltip-target="tooltip-default"
       aria-label="Flutter"
       viewBox="0 0 24 24"
       ><title>Flutter</title><path
@@ -21,7 +22,14 @@
         d="M5.9 15.375L2.5 12l11-11h6.775L5.9 15.375ZM13.5 23l-5.925-5.925L13.5 11.15h6.775l-5.925 5.925L20.275 23H13.5Z"
       ></path></svg
     >
-
+    <div
+      id="tooltip-default"
+      role="tooltip"
+      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+    >
+      Tooltip content
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class="h-12 hover:text-blue-400"
