@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   safelist: [
@@ -15,7 +16,13 @@ module.exports = {
     darkMode: ["class", '[data-theme="dark"]'],
     extend: {
       fontFamily: {
-        josefin: ['"Josefin"', "sans-serif"],
+        josefinMedium: ['"Josefin-medium"', ...defaultTheme.fontFamily.sans],
+        josefinRegular: ['"Josefin-regular"', ...defaultTheme.fontFamily.sans],
+        josefinBold: ['"Josefin-bold"', ...defaultTheme.fontFamily.sans],
+        josefinSemiBold: [
+          '"Josefin-semibold"',
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
     },
   },

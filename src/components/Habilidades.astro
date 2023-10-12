@@ -2,33 +2,33 @@
   class="max-w-screen-xl px-4 pb-8 mx-auto py-16 lg:pb-16 delay-[100ms] duration-[400ms] taos:translate-y-[200px] taos:opacity-0"
 >
   <h2
-    class="text-white text-center pb-8 font-light text-4xl md:text-5xl lg:text-6xl font-josefin"
+    class="text-white text-center pb-8 text-4xl md:text-5xl lg:text-6xl font-josefinBold"
   >
     Habilidades
   </h2>
   <div
-    class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 dark:text-gray-400 items-center transition delay-150 duration-300 ease-in-out"
+    class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 dark:text-gray-400 items-center text-center transition delay-150 duration-300 ease-in-out"
   >
-    <svg
-      class="h-12 hover:text-blue-400"
-      xmlns="http://www.w3.org/2000/svg"
-      width="50"
-      height="50"
-      data-tooltip-target="tooltip-default"
-      aria-label="Flutter"
-      viewBox="0 0 24 24"
-      ><title>Flutter</title><path
-        fill="currentColor"
-        d="M5.9 15.375L2.5 12l11-11h6.775L5.9 15.375ZM13.5 23l-5.925-5.925L13.5 11.15h6.775l-5.925 5.925L20.275 23H13.5Z"
-      ></path></svg
-    >
-    <div
-      id="tooltip-default"
-      role="tooltip"
-      class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-    >
-      Tooltip content
-      <div class="tooltip-arrow" data-popper-arrow></div>
+    <div class="relative group inline-block">
+      <svg
+        class="h-12 hover:text-blue-400"
+        xmlns="http://www.w3.org/2000/svg"
+        width="50"
+        height="50"
+        data-tooltip-target="tooltip-default"
+        aria-label="Flutter"
+        viewBox="0 0 24 24"
+        ><title>Flutter</title><path
+          fill="currentColor"
+          d="M5.9 15.375L2.5 12l11-11h6.775L5.9 15.375ZM13.5 23l-5.925-5.925L13.5 11.15h6.775l-5.925 5.925L20.275 23H13.5Z"
+        ></path></svg
+      >
+      <div
+        class="opacity-0 invisible group-hover:opacity-100 group-hover:visible transition ease-in absolute w-48 mt-2 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-lg shadow-blue-400 py-2 z-10"
+      >
+        <p class="px-4 py-2">Flutter</p>
+        <p class="px-4 py-2">You can customize it with your content.</p>
+      </div>
     </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -40,19 +40,30 @@ const { title } = Astro.props;
 
       @layer base {
         @font-face {
-          font-family: "Josefin";
+          font-family: "Josefin-semibold";
           font-display: block;
+          font-weight: 300;
+          src: url("/fonts/Josefin/JosefinSans-SemiBold.ttf") format("trueType");
+        }
+
+        @font-face {
+          font-family: "Josefin-bold";
+          font-display: block;
+          font-weight: 700;
           src: url("/fonts/Josefin/JosefinSans-Bold.ttf") format("trueType");
         }
         @font-face {
-          font-family: "Josefin";
+          font-family: "Josefin-medium";
           font-display: block;
+          font-weight: 500;
           src: url("/fonts/Josefin/JosefinSans-Medium.ttf") format("trueType");
         }
         @font-face {
-          font-family: "Josefin";
+          font-family: "Josefin-regular";
           font-display: block;
-          src: url("/fonts/Josefin/JosefinSans-Regular.ttf") format("trueType");
+          font-weight: 400;
+          src: url("/fonts/Josefin/JosefinSans-Regular.woff2")
+            format("trueType");
         }
       }
 

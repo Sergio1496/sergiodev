@@ -3,14 +3,12 @@ import CvButton from "../components/CvButton.astro";
 import Layout from "../layouts/Layout.astro";
 import Contact from "../components/Contact.astro";
 import Trayectoria from "../components/Trayectoria.astro";
-import Skills from "../components/Habilidades.astro";
-import Experiencia from "../components/Habilidades.astro";
 import Habilidades from "../components/Habilidades.astro";
 ---
 
 <Layout title="Sergio EM">
   <main class="text-center justify-center flex flex-col">
-    <section class="flex flex-col justify-center items-center pt-24 pb-16">
+    <section class="flex flex-col justify-center items-center pt-24 pb-12">
       <!--  <div
         aria-hidden="true"
         class="absolute inset-y-16 inset-x-0 w-10 rounded-full rotate-90 bg-gradient-to-b from-pink-500 to-purple-600 blur-3xl mx-auto scale-y-150 scale-x-150 opacity-75"
@@ -18,7 +16,7 @@ import Habilidades from "../components/Habilidades.astro";
       </div> -->
       <h1
         id="nombre"
-        class="pb-2 leading-none sm:leading-tight lg:leading-none tracking-tight text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-josefin font-bold text-4xl sm:text-5xl md:text-6xl lg:text-6xl delay-[100ms] duration-[500ms] taos:translate-x-[-200px] taos:opacity-0"
+        class="pb-2 leading-none sm:leading-tight lg:leading-none tracking-tight text-center bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 font-josefinBold text-6xl sm:text-5xl md:text-6xl lg:text-6xl delay-[100ms] duration-[500ms] taos:translate-x-[-200px] taos:opacity-0"
         data-taos-offset="400"
       >
         Sergio Expósito
@@ -26,32 +24,38 @@ import Habilidades from "../components/Habilidades.astro";
 
       <h2
         id="role"
-        class="text-lg sm:text-2xl md:text-2xl lg:text-2xl sm:leading-tight lg:leading-relaxed tracking-tight text-center font-semibold font-josefin delay-[100ms] duration-[500ms] taos:translate-y-[200px] taos:opacity-0"
+        class="text-xl sm:text-2xl md:text-2xl lg:text-2xl sm:leading-tight lg:leading-relaxed tracking-tight text-center font-josefinMedium delay-[100ms] duration-[500ms] taos:translate-y-[200px] taos:opacity-0"
         data-taos-offset="300"
       >
         Desarrollador de aplicaciones móviles
       </h2>
       <h3
         id="desc"
-        class="leading-tight sm:leading-tight lg:leading-tight tracking-tight text-center text-sm sm:text-2xl md:text-2xl lg:text-lg font-josefin py-4 delay-[100ms] duration-[500ms] taos:translate-y-[200px] taos:opacity-0"
-        data-taos-offset="300"
+        class="leading-tight sm:leading-tight lg:leading-tight tracking-tight text-center text-lg sm:text-2xl md:text-2xl lg:text-lg font-josefinRegular py-4 delay-[100ms] duration-[500ms] taos:translate-y-[200px] taos:opacity-0"
+        data-taos-offset="200"
       >
         Soy un apasionado desarrollador de aplicaciones móviles especializado en
         Flutter e Ionic Framework
       </h3>
     </section>
     <section
-      class="flex justify-center delay-[300ms] duration-[500ms] taos:scale-[0.6] taos:opacity-0"
-      data-taos-offset="400"
+      class="flex justify-center delay-[300ms] duration-[500ms] taos:scale-[0.6] taos:opacity-0 sm:py-5 md:py-20 lg:py-0"
+      data-taos-offset="200"
     >
       <CvButton />
     </section>
 
-    <section class="flex flex-col justify-center py-20" aria-label="Skills">
+    <section
+      class="flex flex-col justify-center items-center sm:py-5 md:py-20 lg:py-16"
+      aria-label="Skills"
+    >
       <Habilidades />
     </section>
 
-    <section class="flex text-left" aria-label="Trayectoria">
+    <section
+      class="flex text-left sm:py-5 md:py-20 lg:py-20"
+      aria-label="Trayectoria"
+    >
       <Trayectoria />
     </section>
 
