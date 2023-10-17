@@ -23,6 +23,7 @@ module.exports = {
           '"Josefin-semibold"',
           ...defaultTheme.fontFamily.sans,
         ],
+        mulishRegular: ['"Mulish-regular"', ...defaultTheme.fontFamily.sans],
       },
     },
   },
