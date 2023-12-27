@@ -1,0 +1,35 @@
+---
+const { size, color } = Astro.props;
+
+let colorS;
+if (color == "true") {
+  colorS = `text-blue-400`;
+}
+---
+
+<div class="relative group inline-block">
+  <a href="https://flutter.dev" target="_blank">
+    <svg
+      class={` z-10 middle relative none center hover:text-blue-400 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${size} ${colorS}`}
+      xmlns="http://www.w3.org/2000/svg"
+      width="50"
+      height="50"
+      data-tooltip-target="tooltip-default"
+      aria-label="Flutter"
+      viewBox="0 0 24 24"
+      ><title>Flutter</title><path
+        fill="currentColor"
+        d="M5.9 15.375L2.5 12l11-11h6.775L5.9 15.375ZM13.5 23l-5.925-5.925L13.5 11.15h6.775l-5.925 5.925L20.275 23H13.5Z"
+      ></path></svg
+    >
+  </a>
+  <div
+    class="absolute left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 top-0 group-hover:-top-[3rem] transition-all ease-in-out duration-500"
+  >
+    <div
+      class="z-0 w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+    >
+      <h3 class="font-josefinRegular font-normal text-sm py-2 px-5">Flutter</h3>
+    </div>
+  </div>
+</div>

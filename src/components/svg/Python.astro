@@ -1,0 +1,31 @@
+---
+const { size } = Astro.props;
+---
+
+<div class="relative group inline-block">
+  <a href="https://www.python.org/" target="_blank">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="50"
+      height="50"
+      viewBox="0 0 15 15"
+      class={` z-10 middle relative none center hover:text-yellow-400 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none  ${size}`}
+      ><title>Python</title><path
+        fill="currentColor"
+        d="M3 12H1.5A1.5 1.5 0 0 1 0 10.5v-5A1.5 1.5 0 0 1 1.5 4H8V3H7V2H6v1H4V1.5A1.5 1.5 0 0 1 5.5 0h4A1.5 1.5 0 0 1 11 1.5v5a.5.5 0 0 1-.5.5h-6A1.5 1.5 0 0 0 3 8.5V12Z"
+      ></path><path
+        fill="currentColor"
+        d="M12 3v3.5A1.5 1.5 0 0 1 10.5 8h-6a.5.5 0 0 0-.5.5v5A1.5 1.5 0 0 0 5.5 15h4a1.5 1.5 0 0 0 1.5-1.5V12H9v1H8v-1H7v-1h6.5A1.5 1.5 0 0 0 15 9.5v-5A1.5 1.5 0 0 0 13.5 3H12Z"
+      ></path></svg
+    ></a
+  >
+  <div
+    class="absolute left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bottom-0 group-hover:-bottom-[3rem] transition-all ease-in-out duration-500"
+  >
+    <div
+      class="z-0 w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+    >
+      <h3 class="font-josefinRegular font-normal text-sm py-2 px-5">Python</h3>
+    </div>
+  </div>
+</div>

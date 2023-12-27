@@ -1,7 +1,53 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
+
+// Aquí es donde defines tus proyectos. Puedes agregar tantos como quieras.
+const projects = [
+  {
+    title: "CRM Cafés Lúa",
+    description:
+      "Proyecto desarrollado para la empresa gallega Cafés Lúa. Se trata de un CRM para la gestión de citas y rutas de los comerciales y repartidores. El proyecto se ha desarrollado con el framework de Flutter para optimizar el tiempo de desarrollo",
+    framework: "Flutter",
+    fecha: "2023",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/lua.png",
+    link: "/link-to-project1",
+    skills: ["Flutter", "Dart"],
+  },
+  {
+    title: "El jimin calvo 2",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies ultricies, nunc nisl aliquam nunc, quis ultricies nisl nunc eget nunc.",
+    framework: "Ionic Framework",
+    fecha: "2023",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/prueba.png",
+    link: "/link-to-project2",
+    skills: ["Python", "Django", "PostgreSQL"],
+  },
+  // Agrega más proyectos aquí...
+];
 ---
 
 <Layout title="Sergio EM | Proyectos">
-  <div>holi</div>
+  <div class="">
+    {
+      projects.map((project) => (
+        <Card
+          title={project.title}
+          description={project.description}
+          framework={project.framework}
+          fecha={project.fecha}
+          empresa={project.empresa}
+          empresaLink={project.empresaLink}
+          image={project.image}
+          link={project.link}
+          skills={project.skills}
+        />
+      ))
+    }
+  </div>
 </Layout>

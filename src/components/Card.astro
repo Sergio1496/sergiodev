@@ -1,0 +1,175 @@
+---
+import { Image } from "astro:assets";
+import Flutter from "../components/svg/Flutter.astro";
+import Ionic from "../components/svg/Ionic.astro";
+import Astrobuild from "./svg/Astrobuild.astro";
+import React from "../components/svg/React.astro";
+import Angular from "../components/svg/Angular.astro";
+import Laravel from "../components/svg/Laravel.astro";
+import Dart from "../components/svg/Dart.astro";
+import Typescript from "../components/svg/TypeScript.astro";
+import Javascript from "../components/svg/Javascript.astro";
+import Php from "../components/svg/Php.astro";
+import Python from "../components/svg/Python.astro";
+import Sql from "../components/svg/Sql.astro";
+
+const {
+  title,
+  description,
+  framework,
+  fecha,
+  empresa,
+  empresaLink,
+  image,
+  link,
+  skills,
+} = Astro.props;
+---
+
+<div class="max-w-3xl w-full mx-auto z-10">
+  <div class="flex flex-col">
+    <div
+      class="bg-zinc-800 border border-gray-900 shadow-lg rounded-3xl p-4 m-4 transition-transform duration-500 ease-in-out transform hover:-translate-y-2"
+      style={{ boxShadow: "0 10px 15px rgba(0, 0, 0, 0.5)" }}
+    >
+      <div class="flex-none sm:flex">
+        <div class="relative h-32 w-32 sm:mb-0 mb-3 flex-shrink-0">
+          <img
+            src={image}
+            alt="aji"
+            class="w-32 h-32 object-cover rounded-2xl"
+          />
+        </div>
+        <div class="flex-auto sm:ml-5 justify-evenly">
+          <div class="flex items-center justify-between sm:mt-2">
+            <div class="flex items-center">
+              <div class="flex flex-col">
+                <div
+                  class="w-full flex-none text-lg text-gray-200 font-bold leading-none"
+                >
+                  {title}
+                </div>
+
+                <div class="flex-auto text-gray-400 my-1">
+                  <span class="mr-3">{framework}</span><span
+                    class="mr-3 border-r border-gray-600 max-h-0"></span><span
+                    ><a
+                      class="hover:text-red-500"
+                      target="_blank"
+                      href={empresaLink}
+                    >
+                      {empresa}</a
+                    > - {fecha}</span
+                  >
+                </div>
+                <div class="text-gray-500 text-sm mt-2 pointer-events-none">
+                  {description}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-row items-center">
+            <div class="flex-1 hidden items-center"></div>
+          </div>
+          <div class="flex pt-2 text-sm text-gray-400">
+            <div class="flex-1 inline-flex items-center">
+              <p class="">
+                {
+                  skills.map((skill: any) => {
+                    let SkillComponent;
+                    switch (skill) {
+                      case "Flutter":
+                        SkillComponent = Flutter;
+                        break;
+                      case "Ionic":
+                        SkillComponent = Ionic;
+                        break;
+                      case "React":
+                        SkillComponent = React;
+                        break;
+                      case "Angular":
+                        SkillComponent = Angular;
+                        break;
+                      case "Laravel":
+                        SkillComponent = Laravel;
+                        break;
+                      case "Astrobuild":
+                        SkillComponent = Astrobuild;
+                        break;
+                      case "Dart":
+                        SkillComponent = Dart;
+                        break;
+                      case "TypeScript":
+                        SkillComponent = Typescript;
+                        break;
+                      case "Javascript":
+                        SkillComponent = Javascript;
+                        break;
+                      case "Php":
+                        SkillComponent = Php;
+                        break;
+                      case "Python":
+                        SkillComponent = Python;
+                        break;
+                      case "Sql":
+                        SkillComponent = Sql;
+                        break;
+
+                      default:
+                        SkillComponent = "Sin framework";
+                        break;
+                    }
+                    return <SkillComponent size="h-6 w-6 mr-2" color="true" />;
+                  })
+                }
+              </p>
+            </div>
+            <div class="flex-1 inline-flex items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 mr-2"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <p class="">14 Components</p>
+            </div>
+            <div class="relative inline-flex group">
+              <div
+                class="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg filter group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 ml-4 mt-2 w-8 h-8"
+              >
+              </div>
+              <a href={link}>
+                <button
+                  class="relative inline-flex items-center justify-center px-4 py-3 text-md font-josefinMedium text-white transition-all duration-200 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ml-2"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><path stroke="none" d="M0 0h24v24H0z" fill="none"
+                    ></path><path
+                      d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5"
+                    ></path><line x1="10" y1="14" x2="20" y2="4"
+                    ></line><polyline points="15 4 20 4 20 9"></polyline></svg
+                  ></button
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

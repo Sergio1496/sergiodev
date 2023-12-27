@@ -1,0 +1,29 @@
+---
+const { size } = Astro.props;
+---
+
+<div class="relative group inline-block">
+  <a href="https://angular.io/" target="_blank">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class={` z-10 middle relative none center hover:text-red-400 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${size}`}
+      width="50"
+      height="50"
+      viewBox="0 0 24 24"
+      aria-label="Angular"
+      ><title>Angular</title><path
+        fill="currentColor"
+        d="m12 2.5l8.84 3.15l-1.34 11.7L12 21.5l-7.5-4.15l-1.34-11.7L12 2.5m0 2.1L6.47 17h2.06l1.11-2.78h4.7L15.45 17h2.05L12 4.6m1.62 7.9h-3.23L12 8.63l1.62 3.87Z"
+      ></path></svg
+    >
+  </a>
+  <div
+    class="absolute left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 top-0 group-hover:-top-[3rem] transition-all ease-in-out duration-500"
+  >
+    <div
+      class="z-0 w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+    >
+      <h3 class="font-josefinRegular font-normal text-sm py-2 px-5">Angular</h3>
+    </div>
+  </div>
+</div>
