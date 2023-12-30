@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import Flutter from "../components/svg/Flutter.astro";
 import Ionic from "../components/svg/Ionic.astro";
 import Astrobuild from "./svg/Astrobuild.astro";
@@ -21,9 +20,12 @@ const {
   empresa,
   empresaLink,
   image,
+  arrayImagenes,
   link,
   skills,
+  tieneImagenes,
 } = Astro.props;
+let currentIndex = 0;
 ---
 
 <div class="max-w-3xl w-full mx-auto z-10">
@@ -62,7 +64,9 @@ const {
                     > - {fecha}</span
                   >
                 </div>
-                <div class="text-gray-500 text-sm mt-2 pointer-events-none">
+                <div
+                  class="text-gray-500 text-sm mt-2 pointer-events-none text-pretty"
+                >
                   {description}
                 </div>
               </div>
@@ -124,26 +128,45 @@ const {
                 }
               </p>
             </div>
-            <div class="flex-1 inline-flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 mr-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
-                  clip-rule="evenodd"></path>
-              </svg>
-              <p class="">14 Components</p>
-            </div>
+
+            {
+              tieneImagenes == true ? (
+                <button
+                  class="relative outline-none inline-flex items-center justify-center px-4 py-3 text-md font-josefinMedium text-white transition-all duration-200 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                  onclick="document.getElementById('myModal').showModal()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-slideshow"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#ffffff"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15 6l.01 0" />
+                    <path d="M3 3m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z" />
+                    <path d="M3 13l4 -4a3 5 0 0 1 3 0l4 4" />
+                    <path d="M13 12l2 -2a3 5 0 0 1 3 0l3 3" />
+                    <path d="M8 21l.01 0" />
+                    <path d="M12 21l.01 0" />
+                    <path d="M16 21l.01 0" />
+                  </svg>
+                </button>
+              ) : (
+                ""
+              )
+            }
             <div class="relative inline-flex group">
               <div
                 class="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg filter group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 ml-4 mt-2 w-8 h-8"
               >
               </div>
-              <a href={link}>
+              <a href={link} target="_blank">
                 <button
                   class="relative inline-flex items-center justify-center px-4 py-3 text-md font-josefinMedium text-white transition-all duration-200 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                 >
@@ -173,3 +196,199 @@ const {
     </div>
   </div>
 </div>
+
+<dialog
+  id="myModal"
+  class="h-auto w-auto p-5 bg-transparent rounded-md border-none outline-none"
+>
+  <div class="flex flex-col w-full h-auto">
+    <!-- Header -->
+    <div class="flex w-full h-auto justify-center items-center">
+      <div
+        onclick="document.getElementById('myModal').close(); "
+        class="flex w-auto h-auto justify-end cursor-pointer"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="feather feather-x"
+          ><line x1="18" y1="6" x2="6" y2="18"></line><line
+            x1="6"
+            y1="6"
+            x2="18"
+            y2="18"></line></svg
+        >
+      </div>
+      <!--Header End-->
+    </div>
+    <!-- Modal Content-->
+    <div
+      class="flex w-full h-auto py-10 px-2 justify-center items-center rounded text-center text-gray-500"
+    >
+      <!-- Bentogrid of images -->
+      <div class="grid grid-cols-1 gap-4">
+        <div
+          class="relative mx-auto border-black dark:border-black bg-black border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl"
+        >
+          <div
+            class="w-[148px] h-[18px] bg-black top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"
+          >
+          </div>
+          <div
+            class="h-[46px] w-[3px] bg-black absolute -start-[17px] top-[124px] rounded-s-lg"
+          >
+          </div>
+          <div
+            class="h-[46px] w-[3px] bg-black absolute -start-[17px] top-[178px] rounded-s-lg"
+          >
+          </div>
+          <div
+            class="h-[64px] w-[3px] bg-black absolute -end-[17px] top-[142px] rounded-e-lg"
+          >
+          </div>
+          <div
+            class="rounded-[2rem] overflow-hidden w-[272px] h-[572px] bg-white dark:bg-black"
+          >
+            <div class="slider absolute">
+              {
+                arrayImagenes &&
+                  arrayImagenes.map((image: any, index: any) => (
+                    <>
+                      <input
+                        type="radio"
+                        name="slider"
+                        id={`slide${index}`}
+                        checked={index === 0}
+                        class="sr-only  slide-input"
+                      />
+                      <div
+                        class={`slide absolute w-full h-full opacity-0 transition-opacity duration-500 ease-in-out ${
+                          index === 0 ? "opacity-100" : ""
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt=""
+                          class="w-full h-full object-cover"
+                        />
+                      </div>
+                    </>
+                  ))
+              }
+            </div>
+          </div>
+        </div>
+        {
+          arrayImagenes &&
+            arrayImagenes.map((_: any, index: any) => (
+              <label
+                for={`slide${index}`}
+                class="absolute top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full cursor-pointer slider-control"
+                style={{
+                  left: index === 0 ? 0 : "auto",
+                  right: index === 0 ? "auto" : 0,
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d={index === 0 ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
+                  />
+                </svg>
+              </label>
+            ))
+        }
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  dialog[open] {
+    animation: appear 0.15s ease-in-out;
+    overflow-y: hidden;
+  }
+
+  dialog::backdrop {
+    background: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.5),
+      rgba(54, 54, 54, 0.5)
+    );
+    backdrop-filter: blur(3px);
+  }
+
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .slide {
+    position: absolute;
+    transition: opacity 1s;
+  }
+
+  .slider-control {
+    position: absolute;
+    top: 45%;
+    margin-left: 38%;
+    margin-right: 38%;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .slider-control:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .slider-control {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
+  }
+  /* Estiliza las etiquetas de los radios */
+</style>
+
+<script>
+  window.onload = function () {
+    const radios = document.querySelectorAll(
+      'input[type="radio"][name="slider"]'
+    );
+    const slides = document.querySelectorAll(".slide");
+    radios.forEach((input, index) => {
+      input.addEventListener("change", () => {
+        slides.forEach((slide, i) => {
+          slide.style.opacity = i === index ? "100" : "0";
+          slide.style.zIndex = i === index ? "1" : "0";
+        });
+      });
+    });
+  };
+</script>

@@ -7,33 +7,52 @@ const projects = [
   {
     title: "CRM Cafés Lúa",
     description:
-      "Proyecto desarrollado para la empresa gallega Cafés Lúa. Se trata de un CRM para la gestión de citas y rutas de los comerciales y repartidores. El proyecto se ha desarrollado con el framework de Flutter para optimizar el tiempo de desarrollo",
+      "Proyecto desarrollado para la empresa gallega Cafés Lúa. Se trata de un CRM para la gestión de citas y rutas de los comerciales y repartidores.",
     framework: "Flutter",
     fecha: "2023",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/lua.png",
-    link: "/link-to-project1",
+    arrayImagenes: ["/images/lua/1.webp", "/images/lua/2.webp"],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.cafeslua",
     skills: ["Flutter", "Dart"],
+    tieneImagenes: true,
   },
   {
-    title: "El jimin calvo 2",
+    title: "Ana Simó Valencia Ultramar",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies ultricies, nunc nisl aliquam nunc, quis ultricies nisl nunc eget nunc.",
-    framework: "Ionic Framework",
+      "Pasteleria en Ferrol (A Coruña) con más de 50 años de experiencia. En esta app se puede ver el catalogo de productos con un diseño adaptado a tablets y móviles.",
+    framework: "Flutter",
     fecha: "2023",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/prueba.png",
-    link: "/link-to-project2",
-    skills: ["Python", "Django", "PostgreSQL"],
+    image: "/images/valenciaultramar.png",
+    arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.valenciaultramar",
+    skills: ["Flutter", "Dart"],
+    tieneImagenes: true,
   },
+  {
+    title: "Maat Mirror",
+    description:
+      "Prototipo para ópticas que permite a los clientes probarse las gafas sin necesidad de hacerlo físicamente. Se usan tecnologias como Mlkit para el reconocimiento facial y DeepAR para el renderizado de las gafas.",
+    framework: "Flutter",
+    fecha: "2023",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/maatmirror.png",
+    arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
+    skills: ["Flutter", "Dart"],
+    tieneImagenes: true,
+  },
+
   // Agrega más proyectos aquí...
 ];
 ---
 
 <Layout title="Sergio EM | Proyectos">
-  <div class="" transition:animate="fade">
+  <div class="flex flex-col justify-center" transition:animate="fade">
     {
       projects.map((project) => (
         <Card
@@ -44,8 +63,10 @@ const projects = [
           empresa={project.empresa}
           empresaLink={project.empresaLink}
           image={project.image}
+          arrayImagenes={project.arrayImagenes}
           link={project.link}
           skills={project.skills}
+          tieneImagenes={project.tieneImagenes}
         />
       ))
     }
