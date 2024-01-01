@@ -20,12 +20,9 @@ const {
   empresa,
   empresaLink,
   image,
-  arrayImagenes,
   link,
   skills,
-  tieneImagenes,
 } = Astro.props;
-let currentIndex = 0;
 ---
 
 <div class="max-w-3xl w-full mx-auto z-10">
@@ -35,7 +32,9 @@ let currentIndex = 0;
       style={{ boxShadow: "0 10px 15px rgba(0, 0, 0, 0.5)" }}
     >
       <div class="flex-none sm:flex">
-        <div class="relative h-32 w-32 sm:mb-0 mb-3 flex-shrink-0">
+        <div
+          class="relative h-32 w-32 sm:mb-0 mb-3 flex-shrink-0 justify-center items-center mx-auto"
+        >
           <img
             src={image}
             alt="aji"
@@ -47,12 +46,14 @@ let currentIndex = 0;
             <div class="flex items-center">
               <div class="flex flex-col">
                 <div
-                  class="w-full flex-none text-lg text-gray-200 font-bold leading-none"
+                  class="w-full flex-none text-lg text-gray-200 font-bold leading-none justify-center text-center mx-auto sm:text-left"
                 >
                   {title}
                 </div>
 
-                <div class="flex-auto text-gray-400 my-1">
+                <div
+                  class="flex-auto text-gray-400 my-1 justify-center items-center mx-auto sm:items-start sm:justify-start sm:mx-0"
+                >
                   <span class="mr-3">{framework}</span><span
                     class="mr-3 border-r border-gray-600 max-h-0"></span><span
                     ><a
@@ -129,7 +130,7 @@ let currentIndex = 0;
               </p>
             </div>
 
-            {
+            <!--            {
               tieneImagenes == true ? (
                 <button
                   class="relative outline-none inline-flex items-center justify-center px-4 py-3 text-md font-josefinMedium text-white transition-all duration-200 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
@@ -160,7 +161,7 @@ let currentIndex = 0;
               ) : (
                 ""
               )
-            }
+            } -->
             <div class="relative inline-flex group">
               <div
                 class="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg filter group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 ml-4 mt-2 w-8 h-8"
@@ -197,12 +198,12 @@ let currentIndex = 0;
   </div>
 </div>
 
-<dialog
+<!-- <dialog
   id="myModal"
   class="h-auto w-auto p-5 bg-transparent rounded-md border-none outline-none"
 >
   <div class="flex flex-col w-full h-auto">
-    <!-- Header -->
+
     <div class="flex w-full h-auto justify-center items-center">
       <div
         onclick="document.getElementById('myModal').close(); "
@@ -226,13 +227,13 @@ let currentIndex = 0;
             y2="18"></line></svg
         >
       </div>
-      <!--Header End-->
+   
     </div>
-    <!-- Modal Content-->
+   
     <div
       class="flex w-full h-auto py-10 px-2 justify-center items-center rounded text-center text-gray-500"
     >
-      <!-- Bentogrid of images -->
+   
       <div class="grid grid-cols-1 gap-4">
         <div
           class="relative mx-auto border-black dark:border-black bg-black border-[14px] rounded-[2.5rem] h-[600px] w-[300px] shadow-xl"
@@ -261,6 +262,7 @@ let currentIndex = 0;
                 arrayImagenes &&
                   arrayImagenes.map((image: any, index: any) => (
                     <>
+                      {console.log(image)}
                       <input
                         type="radio"
                         name="slider"
@@ -290,7 +292,9 @@ let currentIndex = 0;
             arrayImagenes.map((_: any, index: any) => (
               <label
                 for={`slide${index}`}
-                class="absolute top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full cursor-pointer slider-control"
+                class={`absolute top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full cursor-pointer slider-control ${
+                  index === 0 ? "slider-control-prev" : "slider-control-next"
+                } z-50`}
                 style={{
                   left: index === 0 ? 0 : "auto",
                   right: index === 0 ? "auto" : 0,
@@ -316,9 +320,9 @@ let currentIndex = 0;
       </div>
     </div>
   </div>
-</dialog>
+</dialog> -->
 
-<style>
+<!-- <style>
   dialog[open] {
     animation: appear 0.15s ease-in-out;
     overflow-y: hidden;
@@ -342,7 +346,7 @@ let currentIndex = 0;
       opacity: 1;
     }
   }
-
+  
   .slider {
     position: relative;
     width: 100%;
@@ -369,26 +373,44 @@ let currentIndex = 0;
 
   @media (max-width: 768px) {
     .slider-control {
-      margin-left: 5%;
-      margin-right: 5%;
+      margin-left: 20%;
+      margin-right: 20%;
+      top: 90%;
     }
-  }
+  } 
   /* Estiliza las etiquetas de los radios */
-</style>
+</style> -->
 
-<script>
-  window.onload = function () {
-    const radios = document.querySelectorAll(
+<!-- <script>
+  let currentIndex = 0;
+  function init() {
+    const sliderContainer = document.querySelector(".slider");
+    const radios = sliderContainer!.querySelectorAll(
       'input[type="radio"][name="slider"]'
     );
+
     const slides = document.querySelectorAll(".slide");
-    radios.forEach((input, index) => {
-      input.addEventListener("change", () => {
-        slides.forEach((slide, i) => {
-          slide.style.opacity = i === index ? "100" : "0";
-          slide.style.zIndex = i === index ? "1" : "0";
-        });
-      });
+    const prevControl = document.querySelector(".slider-control-prev");
+    const nextControl = document.querySelector(".slider-control-next");
+    slides.forEach((slide, i) => {
+      slide.style.opacity = i === currentIndex ? "100" : "0";
     });
-  };
+
+    prevControl.addEventListener("click", () => {
+      currentIndex = currentIndex === 0 ? radios.length - 1 : currentIndex - 1;
+    });
+
+    nextControl.addEventListener("click", () => {
+      currentIndex = currentIndex === radios.length - 1 ? 0 : currentIndex + 1;
+    });
+
+    console.log(radios);
+  }
+
+  init();
+
+  document.addEventListener("astro:after-swap", () => {
+    init();
+  });
 </script>
+ -->

@@ -11,23 +11,49 @@ import Javascript from "../components/svg/Javascript.astro";
 import Php from "../components/svg/Php.astro";
 import Python from "../components/svg/Python.astro";
 import Sql from "../components/svg/Sql.astro";
+
+const slideAnimation = {
+  old: {
+    name: "slide", // same name as the keyframe in layouts/Main
+    duration: "0.7s",
+    easing: "linear",
+    fillMode: "forwards",
+  },
+  new: {
+    name: "slide",
+    duration: "0.7s",
+    easing: "linear",
+    fillMode: "backwards",
+  },
+};
+
+const slide = {
+  forwards: slideAnimation,
+  backwards: slideAnimation,
+};
 ---
 
-<div class="max-w-screen-xl px-4 pb-8 mx-auto py-16 lg:pb-16">
-  <div
-    class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 justify-items-center dark:text-gray-400 items-center text-center transition delay-150 duration-300 ease-in-out"
-  >
-    <Flutter />
-    <Ionic />
-    <Astrobuild />
-    <React />
-    <Angular />
-    <Laravel />
-    <Dart />
-    <Typescript />
-    <Javascript />
-    <Php />
-    <Python />
-    <Sql />
+<section
+  class="flex flex-col justify-center items-center sm:py-5 md:py-20 lg:py-16"
+  aria-label="Skills"
+  transition:animate={slide}
+>
+  <div class="max-w-screen-xl px-4 pb-8 mx-auto py-16 lg:pb-16">
+    <div
+      class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 justify-items-center dark:text-gray-400 items-center text-center transition delay-150 duration-300 ease-in-out"
+    >
+      <Flutter />
+      <Ionic />
+      <Astrobuild />
+      <React />
+      <Angular />
+      <Laravel />
+      <Dart />
+      <Typescript />
+      <Javascript />
+      <Php />
+      <Python />
+      <Sql />
+    </div>
   </div>
-</div>
+</section>

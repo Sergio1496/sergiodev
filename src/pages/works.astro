@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+import ToTop from "../components/ToTop.astro";
 
 // Aquí es donde defines tus proyectos. Puedes agregar tantos como quieras.
 const projects = [
@@ -16,7 +17,6 @@ const projects = [
     arrayImagenes: ["/images/lua/1.webp", "/images/lua/2.webp"],
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.cafeslua",
     skills: ["Flutter", "Dart"],
-    tieneImagenes: true,
   },
   {
     title: "Ana Simó Valencia Ultramar",
@@ -27,10 +27,15 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/valenciaultramar.png",
-    arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
+    arrayImagenes: [
+      "/images/anasimo/1.webp",
+      "/images/anasimo/2.webp",
+      "/images/anasimo/3.webp",
+      "/images/anasimo/4.webp",
+      "/images/anasimo/5.webp",
+    ],
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.valenciaultramar",
     skills: ["Flutter", "Dart"],
-    tieneImagenes: true,
   },
   {
     title: "Maat Mirror",
@@ -44,7 +49,6 @@ const projects = [
     arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
     skills: ["Flutter", "Dart"],
-    tieneImagenes: true,
   },
 
   // Agrega más proyectos aquí...
@@ -66,7 +70,6 @@ const projects = [
           arrayImagenes={project.arrayImagenes}
           link={project.link}
           skills={project.skills}
-          tieneImagenes={project.tieneImagenes}
         />
       ))
     }

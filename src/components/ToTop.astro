@@ -1,15 +1,14 @@
----
-
----
-
 <div class="fixed bottom-0 right-0 p-4">
   <button
     aria-label="Volver arriba"
-    class="bg-gray-800 text-white rounded-full w-10 h-10 mr-5 sm:mr-5 md:mr-5 lg:mr-5 flex items-center justify-center animate-bounce"
+    class="bg-gray-800 text-white rounded-full w-10 h-10 mr-5 sm:mr-5 md:mr-5 lg:mr-5 flex items-center justify-center animate-bounce z-50"
     id="backbtn"
-    onclick="
-    Scrollback_topfunc();
-    "
+    data-testId="backbtn"
+    type="button"
+    aria-label="back to top button"
+    data-mdb-ripple="true"
+    data-mdb-ripple-color="light"
+    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
   >
     <svg
       class="w-6 h-6"
@@ -26,30 +25,6 @@
     </svg>
   </button>
 </div>
-
-<script is:inline>
-  var back_top_button = document.getElementById("backbtn");
-  window.onscroll = function () {
-    scrollfunc();
-  };
-
-  function scrollfunc() {
-    if (
-      document.body.scrollTop > 10 ||
-      document.documentElement.scrollTop > 10
-    ) {
-      back_top_button.style.opacity = "1";
-      back_top_button.style.pointerEvents = "auto";
-    } else {
-      back_top_button.style.opacity = "0";
-      back_top_button.style.pointerEvents = "none";
-    }
-  }
-  function Scrollback_topfunc() {
-    document.body.scrollTop = 0;
-    document.documentElement.scrollTop = 0;
-  }
-</script>
 <style>
   #backbtn {
     position: fixed;
@@ -60,3 +35,23 @@
     transition: opacity 0.3s ease-in-out;
   }
 </style>
+
+<script>
+  function backToTop() {
+    const backTopButton = document.getElementById("backbtn");
+
+    window.onscroll = () => {
+      if (window.pageYOffset > 10) {
+        backTopButton.style.opacity = "1";
+        backTopButton.style.pointerEvents = "auto";
+      } else {
+        backTopButton.style.opacity = "0";
+        backTopButton.style.pointerEvents = "none";
+      }
+    };
+  }
+  backToTop();
+  document.addEventListener("astro:after-swap", () => {
+    backToTop();
+  });
+</script>
