@@ -1,11 +1,10 @@
 <div class="fixed bottom-0 right-0 p-4">
   <button
     aria-label="Volver arriba"
-    class="bg-gray-800 text-white rounded-full w-10 h-10 mr-5 sm:mr-5 md:mr-5 lg:mr-5 flex items-center justify-center animate-bounce z-50"
+    class="bg-gray-800 text-white rounded-full w-10 h-10 mr-2 mb-10 sm:mr-5 md:mr-5 lg:mr-5 flex items-center justify-center animate-bounce z-50"
     id="backbtn"
     data-testId="backbtn"
     type="button"
-    aria-label="back to top button"
     data-mdb-ripple="true"
     data-mdb-ripple-color="light"
     onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
@@ -41,7 +40,7 @@
     const backTopButton = document.getElementById("backbtn");
 
     window.onscroll = () => {
-      if (window.pageYOffset > 10) {
+      if (window.scrollY > 200) {
         backTopButton.style.opacity = "1";
         backTopButton.style.pointerEvents = "auto";
       } else {
