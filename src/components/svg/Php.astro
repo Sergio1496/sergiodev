@@ -3,7 +3,12 @@ const { size } = Astro.props;
 ---
 
 <div class="relative group inline-block">
-  <a href="https://www.php.net/" target="_blank">
+  <a
+    href="https://www.php.net/"
+    target="_blank"
+    title="PHP"
+    data-tooltip-placement="bottom"
+  >
     <svg
       xmlns="http://www.w3.org/2000/svg"
       class={` z-10 middle relative none center hover:text-purple-400 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${size}`}
@@ -16,13 +21,4 @@ const { size } = Astro.props;
       ></path></svg
     ></a
   >
-  <div
-    class="absolute left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bottom-0 group-hover:-bottom-[3rem] transition-all ease-in-out duration-500"
-  >
-    <div
-      class="z-0 w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
-    >
-      <h3 class="font-josefinRegular font-normal text-sm py-2 px-5">PHP</h3>
-    </div>
-  </div>
 </div>

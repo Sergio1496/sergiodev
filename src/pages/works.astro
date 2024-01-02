@@ -1,9 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
-import ToTop from "../components/ToTop.astro";
 
-// Aquí es donde defines tus proyectos. Puedes agregar tantos como quieras.
 const projects = [
   {
     title: "CRM Cafés Lúa",
@@ -50,12 +48,23 @@ const projects = [
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
     skills: ["Flutter", "Dart"],
   },
-
-  // Agrega más proyectos aquí...
+  {
+    title: "Para que al niño no le de un derrame cerebral",
+    description:
+      "Prototipo para ópticas que permite a los clientes probarse las gafas sin necesidad de hacerlo físicamente. Se usan tecnologias como Mlkit para el reconocimiento facial y DeepAR para el renderizado de las gafas.",
+    framework: "Flutter",
+    fecha: "2023",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/maatmirror.png",
+    arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
+    skills: ["Flutter", "Dart"],
+  },
 ];
 ---
 
-<Layout title="Sergio EM | Proyectos">
+<Layout title="Sergio Expósito Martínez | Proyectos">
   <div class="flex flex-col justify-center" transition:animate="fade">
     {
       projects.map((project) => (

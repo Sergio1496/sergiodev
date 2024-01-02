@@ -3,6 +3,7 @@ import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import ToTop from "../components/ToTop.astro";
 import { ViewTransitions } from "astro:transitions";
+import { Tooltips } from "astro-tooltips";
 interface Props {
   title: string;
 }
@@ -16,18 +17,26 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta
       name="description"
-      content="Sergio Expósito Martínez | Desarrollador de aplicaciones móviles"
+      content="Sergio Expósito Martínez | Desarrollador Fullstack de aplicaciones móviles"
     />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <Tooltips
+      interactive={false}
+      delay={[15, 50]}
+      animation="fade"
+      placement="top"
+    />
 
     <title>{title}</title>
 
     <ViewTransitions />
   </head>
 
-  <body class="overflow-hidden">
+  <body
+    class="overflow-hidden scrollbar scrollbar-thumb-zinc-800 scrollbar-track-transparent scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+  >
     <Header />
     <slot />
     <Footer />
@@ -93,17 +102,7 @@ const { title } = Astro.props;
         background: #13151a;
         background-size: 224px;
       }
-      code {
-        font-family:
-          Menlo,
-          Monaco,
-          Lucida Console,
-          Liberation Mono,
-          DejaVu Sans Mono,
-          Bitstream Vera Sans Mono,
-          Courier New,
-          monospace;
-      }
+
       main {
         padding: 1rem;
         color: white;

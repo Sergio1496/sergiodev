@@ -78,7 +78,7 @@ const {
           </div>
           <div class="flex pt-2 text-sm text-gray-400">
             <div class="flex-1 inline-flex items-center">
-              <p class="">
+              <p>
                 {
                   skills.map((skill: any) => {
                     let SkillComponent;
@@ -124,7 +124,13 @@ const {
                         SkillComponent = "Sin framework";
                         break;
                     }
-                    return <SkillComponent size="h-6 w-6 mr-2" color="true" />;
+                    return (
+                      <SkillComponent
+                        size="h-6 w-6 mr-2"
+                        color="true"
+                        title={skill}
+                      />
+                    );
                   })
                 }
               </p>

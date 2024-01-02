@@ -27,5 +27,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("taos/plugin")],
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
 };

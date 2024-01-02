@@ -3,7 +3,12 @@ const { size } = Astro.props;
 ---
 
 <div class="relative group inline-block">
-  <a href="https://www.typescriptlang.org/" target="_blank">
+  <a
+    href="https://www.typescriptlang.org/"
+    target="_blank"
+    title="TypeScript"
+    data-tooltip-placement="bottom"
+  >
     <svg
       role="img"
       viewBox="0 0 24 24"
@@ -18,15 +23,4 @@ const { size } = Astro.props;
       ></path></svg
     >
   </a>
-  <div
-    class="absolute left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bottom-0 group-hover:-bottom-[3rem] transition-all ease-in-out duration-500"
-  >
-    <div
-      class="z-0 w-max whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
-    >
-      <h3 class="font-josefinRegular font-normal text-sm py-2 px-5">
-        TypeScript
-      </h3>
-    </div>
-  </div>
 </div>
