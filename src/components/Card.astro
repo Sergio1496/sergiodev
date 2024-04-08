@@ -35,11 +35,13 @@ const {
         <div
           class="relative h-32 w-32 sm:mb-0 mb-3 flex-shrink-0 justify-center items-center mx-auto"
         >
-          <img
-            src={image}
-            alt="aji"
-            class="w-32 h-32 object-cover rounded-2xl"
-          />
+          <picture class="rounded-lg overflow-hidden block">
+            <img
+              src={image}
+              alt="aji"
+              class="w-32 h-32 object-cover hover:scale-110 ease-in duration-150"
+            />
+          </picture>
         </div>
         <div class="flex-auto sm:ml-5 justify-evenly">
           <div class="flex items-center justify-between sm:mt-2">
@@ -66,7 +68,7 @@ const {
                   >
                 </div>
                 <div
-                  class="text-gray-500 text-sm mt-2 pointer-events-none text-pretty"
+                  class="text-gray-400 text-sm mt-2 pointer-events-none text-pretty"
                 >
                   {description}
                 </div>

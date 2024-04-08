@@ -10,9 +10,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.3.1",
-    "@astrojs/vercel": "^6.0.0",
-    "astro": "^4.0.2",
+    "@astrojs/check": "^0.5.9",
+    "@astrojs/vercel": "^7.3.6",
+    "astro": "^4.5.4",
     "astro-tooltips": "^0.6.2",
     "astro-tunnel": "^0.1.2",
     "resend": "^2.1.0",
