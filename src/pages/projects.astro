@@ -1,10 +1,46 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Card from "../components/Card.astro";
+import { fade } from "astro:transitions";
 
 const projects = [
   {
-    title: "EasyClient POS",
+    title: "ReadWave (En desarrollo)",
+    description:
+      "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
+    framework: "Flutter",
+    fecha: "2024",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/readwave.png",
+    arrayImagenes: [""],
+    skills: ["Flutter", "Dart"],
+  },
+  {
+    title: "Red de pueblo",
+    description:
+      "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
+    framework: "Flutter",
+    fecha: "2024",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/redpueblo.png",
+    arrayImagenes: [""],
+    skills: ["Flutter", "Dart"],
+  },
+  {
+    title: "EasyClient: Gestión de tiendas",
+    description:
+      "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
+    framework: "Flutter",
+    fecha: "2024",
+    empresa: "Hyliacom",
+    empresaLink: "https://hyliacom.es/",
+    image: "/images/easyclient.png",
+    arrayImagenes: [""],
+    skills: ["Flutter", "Dart"],
+  },
+  {
+    title: "EasyClient POS (En desarrollo)",
     description:
       "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
     framework: "Flutter",
@@ -65,22 +101,52 @@ const projects = [
 ---
 
 <Layout title="Sergio Expósito Martínez | Proyectos">
-  <div class="flex flex-col justify-center" transition:animate="fade">
+  <section
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 fade-in"
+    transition:animate={fade({ duration: "0.3s" })}
+  >
     {
       projects.map((project) => (
-        <Card
-          title={project.title}
-          description={project.description}
-          framework={project.framework}
-          fecha={project.fecha}
-          empresa={project.empresa}
-          empresaLink={project.empresaLink}
-          image={project.image}
-          arrayImagenes={project.arrayImagenes}
-          link={project.link}
-          skills={project.skills}
-        />
+        <div class="relative group animate-fade-in">
+          <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out animate-gradient" />
+          <a
+            href={project.link}
+            target="_blank"
+            class="relative block bg-black rounded-lg overflow-hidden"
+          >
+            <img
+              src={project.image}
+              alt={project.title}
+              class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div class="absolute bottom-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <h3 class="text-lg font-bold">{project.title}</h3>
+              <p class="text-sm">
+                {project.framework} - {project.fecha}
+              </p>
+            </div>
+          </a>
+        </div>
       ))
     }
-  </div>
+  </section>
 </Layout>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+    opacity: 0;
+  }
+</style>
