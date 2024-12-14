@@ -7,12 +7,14 @@ const projects = [
     title: "ReadWave (En desarrollo)",
     description:
       "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
+    longDescription:
+      "ReadWave es una aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
     framework: "Flutter",
     fecha: "2024",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/readwave.png",
-    arrayImagenes: [""],
+    link: "https://sergioem.dev",
     skills: ["Flutter", "Dart"],
   },
   {
@@ -24,7 +26,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/redpueblo.png",
-    arrayImagenes: [""],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.reddepueblo",
     skills: ["Flutter", "Dart"],
   },
   {
@@ -36,7 +38,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/easyclient.png",
-    arrayImagenes: [""],
+    link: "https://play.google.com/store/apps/details?id=com.hyliaapps.tiendaseasyclient",
     skills: ["Flutter", "Dart"],
   },
   {
@@ -48,7 +50,6 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/easyclient.png",
-    arrayImagenes: [""],
     skills: ["Flutter", "Dart"],
   },
   {
@@ -87,17 +88,19 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/valenciaultramar.png",
-    arrayImagenes: [
-      "/images/anasimo/1.webp",
-      "/images/anasimo/2.webp",
-      "/images/anasimo/3.webp",
-      "/images/anasimo/4.webp",
-      "/images/anasimo/5.webp",
-    ],
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.valenciaultramar",
     skills: ["Flutter", "Dart"],
   },
 ];
+
+function toggleDescription(id: string) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.classList.toggle("hidden");
+  }
+}
+---
+
 ---
 
 <Layout title="Sergio Expósito Martínez | Proyectos">

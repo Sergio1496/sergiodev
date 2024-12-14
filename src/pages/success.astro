@@ -26,8 +26,9 @@ import Layout from "../layouts/Layout.astro";
         ))
     }
   </div>
-
-  <div class="flex items-center justify-center min-h-screen relative z-10">
+  <div id="progress-bar"></div>
+  <!-- Contenido principal -->
+  <div class="flex items-start justify-center min-h-screen pt-16 relative z-10">
     <div class="text-center">
       <h1
         class="text-5xl md:text-7xl text-green-500 font-josefinBold animate-pulse"
@@ -41,9 +42,18 @@ import Layout from "../layouts/Layout.astro";
   </div>
 
   <script type="module">
+    const redirectTime = 5000; // 5 segundos
     setTimeout(() => {
       window.location.href = "/";
-    }, 5000); // Redirige después de 5 segundos
+    }, redirectTime);
+
+    // Smooth progress bar
+    const progressBar = document.getElementById("progress-bar");
+    progressBar.style.transition = `width ${redirectTime}ms linear`;
+    // Iniciar la animación después de un pequeño retraso
+    setTimeout(() => {
+      progressBar.style.width = "100%";
+    }, 50);
   </script>
 
   <!-- Estilos para la animación de Confeti -->
@@ -61,12 +71,28 @@ import Layout from "../layouts/Layout.astro";
 
     .confetti {
       position: absolute;
-      top: -10px;
+      top: -20px;
       border-radius: 50%;
       animation-name: confetti-fall;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
       animation-fill-mode: forwards;
+    }
+
+    /* Estilos para la barra de progreso */
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 4px; /* Ajusta el grosor de la barra */
+      border-radius: 4px; /* Esquinas más redondeadas */
+      background-image: linear-gradient(
+        to right,
+        #ff44ec,
+        #8b5cf6
+      ); /* Gradiente de tu web */
+      z-index: 1000;
     }
 
     @keyframes confetti-fall {
