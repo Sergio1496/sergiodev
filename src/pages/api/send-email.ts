@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { sendEmail } from "../utils/email";
+import { sendEmail } from "../../utils/email";
 
 export const prerender = false; 
 
@@ -7,7 +7,7 @@ export const prerender = false;
 export const POST: APIRoute = async ({ request, redirect }) => {
   // Get the form data submitted by the user on the home page
   const formData = await request.formData();
-  const name = formData.get("name") as string | null;
+  const name = formData.get("nameOf") as string | null;
   const to = formData.get("recipient") as string | null;
   const subject = formData.get("subject") as string | null;
   const message = formData.get("message") as string | null;

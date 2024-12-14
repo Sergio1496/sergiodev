@@ -1,18 +1,100 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Email with Astro + Resend</title>
-  </head>
-  <body>
-    <h1>Email with Astro + Resend</h1>
-    <p>Email sent successfully.</p>
-    <p><a href="/">Go home</a></p>
-  </body>
-</html>
+<Layout title="Mensaje Enviado">
+  <!-- Contenedor del Confeti -->
+  <div class="confetti-container">
+    <!-- Generar múltiples confetti con variaciones -->
+    {
+      Array(30)
+        .fill(null)
+        .map((_, index) => (
+          <div
+            class="confetti"
+            style={`
+          left: ${Math.random() * 100}%;
+          background-color: hsl(${Math.random() * 360}, 70%, 60%);
+          opacity: ${Math.random() * 0.5 + 0.5};
+          width: ${Math.random() * 8 + 4}px;
+          height: ${Math.random() * 8 + 4}px;
+          animation-delay: ${Math.random() * 5}s;
+          animation-duration: ${Math.random() * 3 + 2}s;
+          transform: rotate(${Math.random() * 360}deg);
+        `}
+          />
+        ))
+    }
+  </div>
+
+  <div class="flex items-center justify-center min-h-screen relative z-10">
+    <div class="text-center">
+      <h1
+        class="text-5xl md:text-7xl text-green-500 font-josefinBold animate-pulse"
+      >
+        🥳 Mensaje Enviado 🥳
+      </h1>
+      <p class="mt-6 text-xl text-gray-300">
+        Serás redirigido a la página de inicio en breve...
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 5000); // Redirige después de 5 segundos
+  </script>
+
+  <!-- Estilos para la animación de Confeti -->
+  <style>
+    .confetti-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -10px;
+      border-radius: 50%;
+      animation-name: confetti-fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Animación de pulsación para el mensaje */
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
+    .animate-pulse {
+      animation: pulse 2s infinite;
+    }
+  </style>
+</Layout>
