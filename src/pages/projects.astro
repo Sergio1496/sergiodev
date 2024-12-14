@@ -6,9 +6,7 @@ const projects = [
   {
     title: "ReadWave (En desarrollo)",
     description:
-      "Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
-    longDescription:
-      "ReadWave es una aplicación de escritorio para la gestión de impresoras de tickets y etiquetas. Esta aplicación se conecta al framework de EasyClient mediante websockets en un servidor de Node.js para la impresión de tickets y etiquetas enviadas directamente desde la web.",
+      "En desarrollo. Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores, usando una inteligencia artificial que recomendará nuevos libros basados en los gustos del usuario. Para ello haré uso de la api de google books y google recomendations ai para ajustar los gustos. También se hará uso de Appwrite",
     framework: "Flutter",
     fecha: "2024",
     empresa: "Hyliacom",
@@ -92,15 +90,6 @@ const projects = [
     skills: ["Flutter", "Dart"],
   },
 ];
-
-function toggleDescription(id: string) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.classList.toggle("hidden");
-  }
-}
----
-
 ---
 
 <Layout title="Sergio Expósito Martínez | Proyectos">
@@ -120,14 +109,16 @@ function toggleDescription(id: string) {
             <img
               src={project.image}
               alt={project.title}
-              class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110"
+              class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110 group-hover:blur-sm"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
             <div class="absolute bottom-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
               <h3 class="text-lg font-bold">{project.title}</h3>
               <p class="text-sm">
                 {project.framework} - {project.fecha}
               </p>
+              <p class="text-sm">{project.description}</p>
             </div>
           </a>
         </div>
