@@ -12,6 +12,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/readwave.webp",
+    mobileImage: "/images/readwave-mobile.png",
     link: "https://sergioem.dev",
     skills: ["Flutter", "Dart"],
   },
@@ -24,6 +25,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/redpueblo.webp",
+    mobileImage: "/images/redpueblo-mobile.png",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.reddepueblo",
     skills: ["Flutter", "Dart"],
   },
@@ -36,6 +38,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/easyclient.webp",
+    mobileImage: "/images/easyclient-mobile.png",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.tiendaseasyclient",
     skills: ["Flutter", "Dart"],
   },
@@ -48,6 +51,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/easyclient.webp",
+    mobileImage: "/images/easyclientpos-mobile.png",
     skills: ["Flutter", "Dart"],
   },
   {
@@ -59,7 +63,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/lua.webp",
-    arrayImagenes: ["/images/lua/1.webp", "/images/lua/2.webp"],
+    mobileImage: "/images/lua-mobile.png",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.cafeslua",
     skills: ["Flutter", "Dart"],
   },
@@ -73,6 +77,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/maatmirror.webp",
+    mobileImage: "/images/maatmirror-mobile.png",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
     skills: ["Flutter", "Dart"],
   },
@@ -85,6 +90,7 @@ const projects = [
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
     image: "/images/valenciaultramar.webp",
+    mobileImage: "/images/valenciaultramar-mobile.png",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.valenciaultramar",
     skills: ["Flutter", "Dart"],
   },
@@ -99,7 +105,7 @@ const projects = [
           {/* Diseño para móviles */}
           <div class="block md:hidden bg-black rounded-lg overflow-hidden">
             <img
-              src={project.image}
+              src={project.mobileImage}
               alt={project.title}
               class="object-cover w-full h-64"
             />
@@ -194,20 +200,17 @@ const projects = [
 
 <style>
   /* Existing animation styles */
-  .toggle-input:checked ~ .description-content {
-    max-height: 500px;
-  }
-
-  .toggle-input:checked ~ .flex label svg {
-    transform: rotate(180deg);
-  }
-
   .description-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 1s ease-in-out;
-    width: 100%; /* Add this */
-  }
+  @apply max-h-0 overflow-hidden transition-all duration-700;
+}
+
+.toggle-input:checked ~ .description-content {
+  @apply max-h-96; /* Ajusta este valor según sea necesario */
+}
+
+.toggle-input:checked ~ .flex label svg {
+  @apply transform rotate-180;
+}
 
   /* Modify arrow rotation to work with new structure */
   .toggle-input:checked ~ div label svg {
