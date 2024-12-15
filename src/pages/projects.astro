@@ -11,7 +11,7 @@ const projects = [
     fecha: "2024",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/readwave.png",
+    image: "/images/readwave.webp",
     link: "https://sergioem.dev",
     skills: ["Flutter", "Dart"],
   },
@@ -23,7 +23,7 @@ const projects = [
     fecha: "2024",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/redpueblo.png",
+    image: "/images/redpueblo.webp",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.reddepueblo",
     skills: ["Flutter", "Dart"],
   },
@@ -35,7 +35,7 @@ const projects = [
     fecha: "2024",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/easyclient.png",
+    image: "/images/easyclient.webp",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.tiendaseasyclient",
     skills: ["Flutter", "Dart"],
   },
@@ -47,7 +47,7 @@ const projects = [
     fecha: "2024",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/easyclient.png",
+    image: "/images/easyclient.webp",
     skills: ["Flutter", "Dart"],
   },
   {
@@ -58,7 +58,7 @@ const projects = [
     fecha: "2023",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/lua.png",
+    image: "/images/lua.webp",
     arrayImagenes: ["/images/lua/1.webp", "/images/lua/2.webp"],
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.cafeslua",
     skills: ["Flutter", "Dart"],
@@ -72,8 +72,7 @@ const projects = [
     fecha: "2023",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/maatmirror.png",
-    arrayImagenes: ["/images/valenciaultramar.png", "/images/lua.png"],
+    image: "/images/maatmirror.webp",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror",
     skills: ["Flutter", "Dart"],
   },
@@ -85,7 +84,7 @@ const projects = [
     fecha: "2023",
     empresa: "Hyliacom",
     empresaLink: "https://hyliacom.es/",
-    image: "/images/valenciaultramar.png",
+    image: "/images/valenciaultramar.webp",
     link: "https://play.google.com/store/apps/details?id=com.hyliaapps.valenciaultramar",
     skills: ["Flutter", "Dart"],
   },
@@ -93,34 +92,100 @@ const projects = [
 ---
 
 <Layout title="Sergio Expósito Martínez | Proyectos">
-  <section
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6 fade-in"
-    transition:animate={fade({ duration: "0.3s" })}
-  >
+  <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
     {
-      projects.map((project) => (
-        <div class="relative group animate-fade-in">
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-100 transition-all duration-700 ease-in-out animate-gradient" />
-          <a
-            href={project.link}
-            target="_blank"
-            class="relative block bg-black rounded-lg overflow-hidden"
-          >
+      projects.map((project, index) => (
+        <div class="relative group fade-in" data-key={index}>
+          {/* Diseño para móviles */}
+          <div class="block md:hidden bg-black rounded-lg overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
-              class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110 group-hover:blur-sm"
+              class="object-cover w-full h-64"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
-            <div class="absolute bottom-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <h3 class="text-lg font-bold">{project.title}</h3>
-              <p class="text-sm">
-                {project.framework} - {project.fecha}
-              </p>
-              <p class="text-sm">{project.description}</p>
+      <div class="p-4  relative">
+        <!-- Move the input here so it's before the elements you want to control -->
+        <input
+          type="checkbox"
+          id={`toggle-${index}`}
+          class="hidden toggle-input"
+        />
+
+        <div class="flex justify-between items-start">
+          <div>
+            <h3 class="text-lg font-bold text-white">{project.title}</h3>
+            <p class="text-sm text-gray-300">
+              {project.framework} - {project.fecha}
+            </p>
+          </div>
+
+          <div class="relative inline-flex right-2 top-2">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-100 transition duration-700 ease-in-out" />
+            <label
+              for={`toggle-${index}`}
+              class="relative cursor-pointer text-white p-2 rounded-full transition-colors duration-300 text-sm flex items-center justify-center"
+              style="background: linear-gradient(to right, #303030, #3a3a3a);"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </label>
+          </div>
+        </div>
+
+<div class="max-h-0 overflow-hidden transition-all duration-700 description-content">
+  <p class="text-sm text-white mt-2">{project.description}</p>
+  <div class="flex justify-end mr-2">
+    <div class="relative inline-block mt-4 mb-2"> {/* Add relative positioning */}
+      <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-100 transition duration-700 ease-in-out" />
+      <a
+        href={project.link}
+        target="_blank"
+        class="relative inline-block px-6 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-full text-white text-sm"
+      >
+        Ver Proyecto
+      </a>
+    </div>
+  </div>
+</div>
             </div>
-          </a>
+          </div>
+
+          {/* Diseño para escritorio */}
+          <div class="hidden md:block relative group">
+            <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out" />
+            <a
+              href={project.link}
+              target="_blank"
+              class="relative block bg-black rounded-lg overflow-hidden"
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110 group-hover:blur-sm"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
+              <div class="absolute bottom-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <h3 class="text-lg font-bold">{project.title}</h3>
+                <p class="text-sm">
+                  {project.framework} - {project.fecha}
+                </p>
+                <p class="text-sm">{project.description}</p>
+              </div>
+            </a>
+          </div>
         </div>
       ))
     }
@@ -128,19 +193,103 @@ const projects = [
 </Layout>
 
 <style>
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* Existing animation styles */
+  .toggle-input:checked ~ .description-content {
+    max-height: 500px;
   }
 
-  .animate-fade-in {
-    animation: fade-in 0.6s ease-out forwards;
+  .toggle-input:checked ~ .flex label svg {
+    transform: rotate(180deg);
+  }
+
+  .description-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s ease-in-out;
+    width: 100%; /* Add this */
+  }
+
+  /* Modify arrow rotation to work with new structure */
+  .toggle-input:checked ~ div label svg {
+    transform: rotate(180deg);
+  }
+
+  /* Keep existing fade-in styles */
+  .fade-in {
     opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Add these new styles */
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .title-container {
+    flex: 1;
+    margin-right: 1rem;
+  }
+
+  .toggle-button {
+    position: relative;
+    z-index: 1;
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const faders = document.querySelectorAll(".fade-in");
+
+    const options = {
+      threshold: 0.1,
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (
+      entries,
+      observer
+    ) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    faders.forEach((fader) => {
+      appearOnScroll.observe(fader);
+    });
+
+    // Cambiar el texto del botón "Leer más" a "Leer menos"
+    const toggleInputs = document.querySelectorAll(".toggle-input");
+    toggleInputs.forEach((input) => {
+      input.addEventListener("change", (e) => {
+        const label = (e.target as HTMLInputElement).nextElementSibling;
+        if (label) {
+          const svg = label.querySelector("svg");
+          if ((e.target as HTMLInputElement).checked) {
+            if (svg) {
+              svg.style.transform = "rotate(180deg)";
+            }
+          } else {
+            if (svg) {
+              svg.style.transform = "rotate(0deg)";
+            }
+          }
+        }
+      });
+    });
+  });
+</script>
