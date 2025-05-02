@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+// Get all blog entries
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const anim = {
+  old: {
+    name: "slide",
+    duration: "0.8s",
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    fillMode: "forwards",
+  },
+  new: {
+    name: "slide",
+    duration: "0.8s",
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    fillMode: "backwards",
+  },
+};
+
+const customTransition = {
+  forwards: anim,
+  backwards: anim,
+};
+---
+
+<Layout
+  title="Sergio Expósito Martínez | Blog"
+  transition:name="fade"
+  transition:animate={customTransition}
+>
+  <div class="min-h-screen bg-[#13151a] text-neutral-100 py-16 animate-fade-in">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h1 class="text-5xl font-bold mb-16 tracking-tight">Artículos</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 fade-in">
+        {
+          posts.map((post) => (
+            <article class="group relative flex flex-col bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-2xl shadow-lg overflow-hidden border border-neutral-700/30 backdrop-blur-sm hover:shadow-pink-500/10 transition-all duration-500 ease-out hover:-translate-y-2">
+              <a href={`/blog/${post.slug}`} class="block h-full">
+                {/* Banner de imagen con efecto de parallax */}
+                <div class="relative w-full h-56 overflow-hidden">
+                  <img
+                    src={post.data.image}
+                    alt={post.data.title}
+                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/70 to-transparent opacity-80" />
+
+                  {/* Fecha destacada */}
+                  <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-md border border-pink-500/20 rounded-full px-3 py-1 text-xs font-medium text-pink-300">
+                    {new Date(post.data.pubDate).toLocaleDateString("es-ES", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </div>
+                </div>
+
+                <div class="p-6 flex-grow flex flex-col justify-between relative z-10">
+                  {/* Etiquetas en la parte superior */}
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {post.data.tags &&
+                      post.data.tags.map((tag) => (
+                        <span class="bg-pink-500/10 text-pink-300 text-xs px-3 py-1 rounded-full border border-pink-500/20 backdrop-blur-sm">
+                          {tag}
+                        </span>
+                      ))}
+                  </div>
+
+                  <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-3 group-hover:text-pink-400 transition-colors duration-300">
+                      {post.data.title}
+                    </h2>
+
+                    <p class="text-neutral-300 line-clamp-3 text-sm">
+                      {post.data.description}
+                    </p>
+                  </div>
+
+                  <div class="pt-4 border-t border-neutral-700/30 flex justify-between items-center mt-auto">
+                    <div class="inline-flex items-center gap-2 text-neutral-300 group-hover:text-pink-400 transition-colors">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        />
+                      </svg>
+                      <span class="text-sm font-medium">Leer artículo</span>
+                    </div>
+
+                    <div class="h-8 w-8 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-all duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 text-pink-400 transform transition-transform group-hover:translate-x-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M14 5l7 7-7 7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

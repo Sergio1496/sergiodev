@@ -1,15 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { fade } from "astro:transitions";
+import { getCollection } from "astro:content";
 
+// Mantener la lista de proyectos
 const projects = [
   {
     title: "ReadWave (En desarrollo)",
     description:
       "En desarrollo. Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores, usando una inteligencia artificial que recomendará nuevos libros basados en los gustos del usuario. Para ello haré uso de la api de google books y google recomendations ai para ajustar los gustos. También se hará uso de Appwrite",
     framework: "Flutter",
-    fecha: "2024",
-    empresa: "Hyliacom",
+    fecha: "2025",
+    empresa: "",
     empresaLink: "https://hyliacom.es/",
     image: "/images/readwave.webp",
     mobileImage: "/images/readwave-mobile.png",
@@ -95,128 +96,153 @@ const projects = [
     skills: ["Flutter", "Dart"],
   },
 ];
+
+const blogEntries = await getCollection("blog");
+const projectRelatedEntries = new Map(
+  blogEntries
+    .filter((entry) => entry.data.projectRelated)
+    .map((entry) => [entry.data.projectRelated, entry.slug])
+);
+
+// Añadir animaciones de transición al igual que en blog.astro
+const anim = {
+  old: {
+    name: "slide",
+    duration: "0.8s",
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    fillMode: "forwards",
+  },
+  new: {
+    name: "slide",
+    duration: "0.8s",
+    easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    fillMode: "backwards",
+  },
+};
+
+const customTransition = {
+  forwards: anim,
+  backwards: anim,
+};
 ---
 
-<Layout title="Sergio Expósito Martínez | Proyectos">
-  <section class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-    {
-      projects.map((project, index) => (
-        <div class="relative group fade-in" data-key={index}>
-          {/* Diseño para móviles */}
-          <div class="block md:hidden bg-black rounded-lg overflow-hidden">
-            <img
-              src={project.mobileImage}
-              alt={project.title}
-              class="object-cover w-full h-64"
-            />
-      <div class="p-4  relative">
-        <!-- Move the input here so it's before the elements you want to control -->
-        <input
-          type="checkbox"
-          id={`toggle-${index}`}
-          class="hidden toggle-input"
-        />
+<Layout
+  title="Sergio Expósito Martínez | Proyectos"
+  transition:name="fade"
+  transition:animate={customTransition}
+>
+  <div class="min-h-screen bg-[#13151a] text-neutral-100 py-16 animate-fade-in">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h1 class="text-5xl font-bold mb-16 tracking-tight">Proyectos</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 fade-in">
+        {
+          projects.map((project, index) => {
+            const blogSlug = projectRelatedEntries.get(project.title);
 
-        <div class="flex justify-between items-start">
-          <div>
-            <h3 class="text-lg font-bold text-white">{project.title}</h3>
-            <p class="text-sm text-gray-300">
-              {project.framework} - {project.fecha}
-            </p>
-          </div>
+            return (
+              <article class="group relative flex flex-col bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-2xl shadow-lg overflow-hidden border border-neutral-700/30 backdrop-blur-sm hover:shadow-pink-500/10 transition-all duration-500 ease-out hover:-translate-y-2">
+                <div class="relative w-full h-56 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/70 to-transparent opacity-80" />
 
-          <div class="relative inline-flex right-2 top-2">
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-100 transition duration-700 ease-in-out" />
-            <label
-              for={`toggle-${index}`}
-              class="relative cursor-pointer text-white p-2 rounded-full transition-colors duration-300 text-sm flex items-center justify-center"
-              style="background: linear-gradient(to right, #303030, #3a3a3a);"
-            >
-              <svg
-                class="w-4 h-4 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </label>
-          </div>
-        </div>
+                  {/* Fecha destacada */}
+                  <div class="absolute top-4 right-4 bg-black/50 backdrop-blur-md border border-pink-500/20 rounded-full px-3 py-1 text-xs font-medium text-pink-300">
+                    {project.fecha} - {project.framework}
+                  </div>
+                </div>
 
-<div class="max-h-0 overflow-hidden transition-all duration-700 description-content">
-  <p class="text-sm text-white mt-2">{project.description}</p>
-  <div class="flex justify-end mr-2">
-    <div class="relative inline-block mt-4 mb-2"> {/* Add relative positioning */}
-      <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full blur opacity-100 transition duration-700 ease-in-out" />
-      <a
-        href={project.link}
-        target="_blank"
-        class="relative inline-block px-6 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-full text-white text-sm"
-      >
-        Ver Proyecto
-      </a>
+                <div class="p-6 flex-grow flex flex-col justify-between relative z-10">
+                  {/* Etiquetas en la parte superior */}
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {project.skills &&
+                      project.skills.map((skill) => (
+                        <span class="bg-pink-500/10 text-pink-300 text-xs px-3 py-1 rounded-full border border-pink-500/20 backdrop-blur-sm">
+                          {skill}
+                        </span>
+                      ))}
+                  </div>
+
+                  <div class="mb-6">
+                    <h2 class="text-2xl font-bold mb-3 group-hover:text-pink-400 transition-colors duration-300">
+                      {project.title}
+                    </h2>
+
+                    <p class="text-neutral-300 line-clamp-3 text-sm">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  <div class="pt-4 border-t border-neutral-700/30 flex justify-between items-center mt-auto">
+                    <div class="flex items-center gap-2">
+                      {project.empresa && (
+                        <a
+                          href={project.empresaLink}
+                          target="_blank"
+                          class="text-sm text-neutral-400 hover:text-pink-500 transition-colors"
+                        >
+                          {project.empresa}
+                        </a>
+                      )}
+
+                      {blogSlug && (
+                        <a
+                          href={`/blog/${blogSlug}`}
+                          class="text-sm text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                          >
+                            <path d="M12 19l7-7 3 3-7 7-3-3z" />
+                            <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                            <path d="M2 2l7.586 7.586" />
+                            <circle cx="11" cy="11" r="2" />
+                          </svg>
+                          Ver entrada del blog
+                        </a>
+                      )}
+                    </div>
+
+                    {project.link && (
+                      <div class="h-8 w-8 rounded-full bg-pink-500/10 flex items-center justify-center group-hover:bg-pink-500/20 transition-all duration-300">
+                        <a href={project.link} target="_blank">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 text-pink-400 transform transition-transform group-hover:translate-x-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M14 5l7 7-7 7"
+                            />
+                          </svg>
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
     </div>
   </div>
-</div>
-            </div>
-          </div>
-
-          {/* Diseño para escritorio */}
-          <div class="hidden md:block relative group">
-            <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-700 ease-in-out" />
-            <a
-              href={project.link}
-              target="_blank"
-              class="relative block bg-black rounded-lg overflow-hidden"
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-110 group-hover:blur-sm"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div class="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity duration-500" />
-              <div class="absolute bottom-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                <h3 class="text-lg font-bold">{project.title}</h3>
-                <p class="text-sm">
-                  {project.framework} - {project.fecha}
-                </p>
-                <p class="text-sm">{project.description}</p>
-              </div>
-            </a>
-          </div>
-        </div>
-      ))
-    }
-  </section>
 </Layout>
 
 <style>
-  /* Existing animation styles */
-  .description-content {
-  @apply max-h-0 overflow-hidden transition-all duration-700;
-}
-
-.toggle-input:checked ~ .description-content {
-  @apply max-h-96; /* Ajusta este valor según sea necesario */
-}
-
-.toggle-input:checked ~ .flex label svg {
-  @apply transform rotate-180;
-}
-
-  /* Modify arrow rotation to work with new structure */
-  .toggle-input:checked ~ div label svg {
-    transform: rotate(180deg);
-  }
-
   /* Keep existing fade-in styles */
   .fade-in {
     opacity: 0;
@@ -231,23 +257,13 @@ const projects = [
     transform: translateY(0);
   }
 
-  /* Add these new styles */
-  .flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 1rem;
+  /* Add smooth transitions */
+  article {
+    transition: all 0.3s ease;
   }
 
-  .title-container {
-    flex: 1;
-    margin-right: 1rem;
-  }
-
-  .toggle-button {
-    position: relative;
-    z-index: 1;
+  article:hover {
+    transform: translateY(-4px);
   }
 </style>
 
@@ -273,26 +289,6 @@ const projects = [
 
     faders.forEach((fader) => {
       appearOnScroll.observe(fader);
-    });
-
-    // Cambiar el texto del botón "Leer más" a "Leer menos"
-    const toggleInputs = document.querySelectorAll(".toggle-input");
-    toggleInputs.forEach((input) => {
-      input.addEventListener("change", (e) => {
-        const label = (e.target as HTMLInputElement).nextElementSibling;
-        if (label) {
-          const svg = label.querySelector("svg");
-          if ((e.target as HTMLInputElement).checked) {
-            if (svg) {
-              svg.style.transform = "rotate(180deg)";
-            }
-          } else {
-            if (svg) {
-              svg.style.transform = "rotate(0deg)";
-            }
-          }
-        }
-      });
     });
   });
 </script>

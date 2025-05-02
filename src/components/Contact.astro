@@ -1,5 +1,6 @@
 ---
-
+// Importaciones y constantes
+const RECAPTCHA_SITE_KEY = "6LeXlysrAAAAAIcWDMjm85lEqEaDSlJB5sn-djuo";
 ---
 
 <section class="flex flex-col" aria-label="Contacto">
@@ -20,6 +21,7 @@
           class="flex flex-col items-center"
           action="/api/send-email"
           method="POST"
+          id="contactForm"
         >
           <div class="md:w-3/4 lg:w-2/3">
             <div class="flex flex-col md:flex-row">
@@ -56,6 +58,12 @@
               required
               class="my-2 py-2 px-4 rounded-md bg-zinc-800 text-white w-full outline-none focus:ring-2 focus:ring-blue-600"
             ></textarea>
+            <!-- Campo oculto para almacenar el token de reCAPTCHA -->
+            <input
+              type="hidden"
+              name="g-recaptcha-response"
+              id="recaptchaResponse"
+            />
           </div>
           <div class="relative inline-flex group mx-5 my-5">
             <div
@@ -64,6 +72,7 @@
             </div>
             <button
               type="submit"
+              id="submitBtn"
               class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-josefinMedium text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
               Enviar
@@ -86,3 +95,38 @@
     </div>
   </div>
 </section>
+
+<!-- Script para cargar reCAPTCHA v3 -->
+<script is:inline define:vars={{ RECAPTCHA_SITE_KEY }}>
+  // Cargar la API de reCAPTCHA v3
+  function loadRecaptcha() {
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+    document.head.appendChild(script);
+  }
+
+  // Cuando el documento esté listo
+  document.addEventListener("DOMContentLoaded", () => {
+    loadRecaptcha();
+
+    // Manejar el envío del formulario
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Ejecutar reCAPTCHA
+      grecaptcha.ready(function () {
+        grecaptcha
+          .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
+          .then(function (token) {
+            // Agregar el token al campo oculto
+            document.getElementById("recaptchaResponse").value = token;
+
+            // Enviar el formulario
+            form.submit();
+          });
+      });
+    });
+  });
+</script>
