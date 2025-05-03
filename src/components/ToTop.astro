@@ -27,7 +27,7 @@
 <style>
   #bckbtn {
     position: fixed;
-    bottom: 40px;
+    bottom: 20px;
     right: 20px;
     opacity: 0;
     pointer-events: none;
@@ -40,6 +40,8 @@
     const backTopButton = document.getElementById("bckbtn");
 
     window.onscroll = () => {
+      if (!backTopButton) return;
+
       if (window.scrollY > 200) {
         backTopButton.style.opacity = "1";
         backTopButton.style.pointerEvents = "auto";
