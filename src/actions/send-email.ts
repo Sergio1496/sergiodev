@@ -4,7 +4,7 @@ import { sendEmail } from "../utils/email";
 export const prerender = false;
 
 // Clave secreta de reCAPTCHA - Se recomienda usar variables de entorno para esto
-const RECAPTCHA_SECRET_KEY = "6LeXlysrAAAAAIWVOpu-0EXkJu57IMlREpNoFnpw";
+const RECAPTCHA_SECRET_KEY = import.meta.env.RECAPTCHA_SECRET_KEY;
 
 export const POST: APIRoute = async ({ request, redirect }) => {
   try {
