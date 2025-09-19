@@ -1,0 +1,236 @@
+@import "tailwindcss";
+
+/* Cargar fuentes personalizadas */
+@font-face {
+  font-family: "JosefinSans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Josefin/JosefinSans-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JosefinSans";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Josefin/JosefinSans-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "JosefinSans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Josefin/JosefinSans-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "JosefinSans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Josefin/JosefinSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Mulish/Mulish-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/Mulish/Mulish-Medium.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/Mulish/Mulish-SemiBold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Mulish";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/Mulish/Mulish-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Pacifico";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Pacifico/Pacifico.ttf") format("truetype");
+}
+
+/* Configuración del tema con las últimas características de Tailwind CSS v4 */
+@theme {
+  /* Configuración de fuentes con las familias personalizadas */
+  --font-family-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  
+  /* Fuentes personalizadas - Configuración simplificada para v4 */
+  --font-family-josefin: "JosefinSans", var(--font-family-sans);
+  --font-family-mulish: "Mulish", var(--font-family-sans);
+  --font-family-pacifico: "Pacifico", cursive;
+
+  /* Tamaños de texto mejorados con mejores line-heights */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 1;
+  --text-8xl: 6rem;
+  --text-8xl--line-height: 1;
+  --text-9xl: 8rem;
+  --text-9xl--line-height: 1;
+
+  /* Spacing mejorado */
+  --spacing-px: 1px;
+  --spacing-0: 0px;
+  --spacing-0_5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-1_5: 0.375rem;
+  --spacing-2: 0.5rem;
+  --spacing-2_5: 0.625rem;
+  --spacing-3: 0.75rem;
+  --spacing-3_5: 0.875rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-9: 2.25rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-28: 7rem;
+  --spacing-32: 8rem;
+  --spacing-36: 9rem;
+  --spacing-40: 10rem;
+  --spacing-44: 11rem;
+  --spacing-48: 12rem;
+  --spacing-52: 13rem;
+  --spacing-56: 14rem;
+  --spacing-60: 15rem;
+  --spacing-64: 16rem;
+  --spacing-72: 18rem;
+  --spacing-80: 20rem;
+  --spacing-96: 24rem;
+
+  /* Breakpoints modernos */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  --breakpoint-3xl: 1920px;
+
+  /* Colores base para modo oscuro y claro */
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  /* Nuevas utilidades de sombra de texto (v4.1) */
+  --text-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.04);
+  --text-shadow: 0 1px 3px rgb(0 0 0 / 0.1), 0 1px 2px rgb(0 0 0 / 0.06);
+  --text-shadow-md: 0 4px 6px rgb(0 0 0 / 0.07), 0 2px 4px rgb(0 0 0 / 0.06);
+  --text-shadow-lg: 0 10px 15px rgb(0 0 0 / 0.1), 0 4px 6px rgb(0 0 0 / 0.05);
+  --text-shadow-xl: 0 20px 25px rgb(0 0 0 / 0.1), 0 8px 10px rgb(0 0 0 / 0.04);
+  --text-shadow-2xl: 0 25px 50px rgb(0 0 0 / 0.25);
+
+  /* Animaciones fluidas mejoradas */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Duraciones de transición */
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+}
+
+/* Configuración para taos animation */
+html.js :where([class*="taos:"]:not(.taos-init)) {
+  visibility: hidden;
+}
+
+/* Utilidades personalizadas para scrollbar usando layer utilities */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  /* Forzar generación de clases de fuente */
+  .font-josefin {
+    font-family: var(--font-family-josefin);
+  }
+
+  .font-mulish {
+    font-family: var(--font-family-mulish);
+  }
+
+  .font-pacifico {
+    font-family: var(--font-family-pacifico);
+  }
+}
+
+/* Soporte para modo oscuro mejorado */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Variables de color que cambiarán en modo oscuro */
+    --color-background: #0f0f23;
+    --color-foreground: #ededed;
+  }
+}
+
+[data-theme="dark"] {
+  /* Colores específicos para modo oscuro */
+  --color-background: #0f0f23;
+  --color-foreground: #ededed;
+}

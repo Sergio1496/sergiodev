@@ -2,7 +2,7 @@
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import ToTop from "../components/ToTop.astro";
-
+import "../styles/global.css";
 import { Tooltips } from "astro-tooltips";
 interface Props {
   title: string;
@@ -33,17 +33,42 @@ const { title } = Astro.props;
   </head>
 
   <body
-    class="overflow-hidden scrollbar scrollbar-thumb-zinc-800 scrollbar-track-transparent scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+    class="relative overflow-hidden scrollbar scrollbar-thumb-zinc-800 scrollbar-track-transparent scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
   >
-    <Header />
-    <slot />
-    <Footer />
-    <ToTop />
-    <style is:global>
-      @tailwind base;
-      @tailwind components;
-      @tailwind utilities;
+    <!-- Fondo elegante simplificado -->
+    <div class="fixed inset-0 z-0">
+      <!-- Fondo base con degradado suave -->
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-neutral-950"
+      >
+      </div>
 
+      <!-- Efectos de luz ambiental sutiles -->
+      <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/5 rounded-full blur-3xl"
+      >
+      </div>
+      <div
+        class="absolute top-3/4 left-3/4 w-72 h-72 bg-pink-600/4 rounded-full blur-3xl"
+      >
+      </div>
+
+      <!-- Overlay final para consistencia -->
+      <div class="absolute inset-0 bg-black/10"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="relative z-10">
+      <Header />
+      <slot />
+      <Footer />
+      <ToTop />
+    </div>
+    <style is:global>
       @layer base {
         @font-face {
           font-family: "Josefin-semibold";
@@ -142,6 +167,15 @@ const { title } = Astro.props;
       }
       .grecaptcha-badge {
         visibility: hidden !important;
+      }
+
+      /* Fondo elegante simplificado */
+      /* Asegurar que el contenido tenga el z-index correcto */
+      header,
+      main,
+      footer {
+        position: relative;
+        z-index: 10;
       }
     </style>
   </body>
