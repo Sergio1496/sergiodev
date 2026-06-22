@@ -9,7 +9,7 @@ image: "/images/redpueblo.webp"
 mobileImage: "/images/redpueblo-mobile.png"
 link: "https://play.google.com/store/apps/details?id=com.hyliaapps.reddepueblo"
 skills: ["Flutter", "Dart", "Firebase"]
-order: 5
+order: 4
 ---
 
 Aplicación móvil multiplataforma que conecta comunidades rurales españolas facilitando el acceso a servicios locales, comunicación comunitaria y puntos de interés geolocalizados.

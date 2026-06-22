@@ -8,7 +8,7 @@ empresaLink: "https://hyliacom.es/"
 image: "/images/easyclient.webp"
 mobileImage: "/images/easyclientpos-mobile.png"
 skills: ["Flutter", "Dart"]
-order: 7
+order: 6
 ---
 
 Aplicación de escritorio para la gestión de impresoras de tickets y etiquetas conectada al framework de EasyClient mediante websockets.

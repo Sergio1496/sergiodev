@@ -9,7 +9,7 @@ image: "/images/maatmirror.webp"
 mobileImage: "/images/maatmirror-mobile.png"
 link: "https://play.google.com/store/apps/details?id=com.hyliaapps.maatmirror"
 skills: ["Flutter", "Dart"]
-order: 9
+order: 8
 ---
 
 Prototipo para ópticas que permite a los clientes probarse las gafas sin necesidad de hacerlo físicamente usando reconocimiento facial y renderizado AR.
