@@ -1,14 +1,13 @@
-﻿---
+---
 title: "ReadWave (En desarrollo)"
-description: "En desarrollo. Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores, usando una inteligencia artificial que recomendará nuevos libros basados en los gustos del usuario. Para ello haré uso de la api de google books y google recomendations ai para ajustar los gustos. También se hará uso de Appwrite"
+description: "Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores usando una inteligencia artificial en la nube que recomendará nuevos libros basados en los gustos del usuario."
 framework: "Flutter"
-fecha: "2024"
-empresa: "Hyliacom"
-empresaLink: "https://hyliacom.es/"
+fecha: "2025"
 image: "/images/readwave.webp"
 mobileImage: "/images/readwave-mobile.png"
 link: "https://sergioem.dev"
 skills: ["Flutter", "Dart"]
+order: 1
 ---
 
-Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores, usando una inteligencia artificial que recomendará nuevos libros basados en los gustos del usuario. Para ello haré uso de la api de google books y google recomendations ai para ajustar los gustos. También se hará uso de Appwrite.
+Esta aplicación permitirá a los usuarios descubrir nuevos libros y autores, usando una inteligencia artificial que recomendará nuevos libros basados en los gustos del usuario. Usando apis de google books y google recomendations ai para ajustar los gustos.
