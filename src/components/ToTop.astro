@@ -49,13 +49,17 @@
       }
     }
 
-    // Remover event listeners existentes
-    backTopButton.removeEventListener("click", scrollToTop);
-    window.removeEventListener("scroll", toggleButton);
-
-    // Añadir event listeners
+    // El botón se reemplaza en cada navegación, así que basta con añadirle
+    // el listener de click al nodo actual.
     backTopButton.addEventListener("click", scrollToTop);
-    window.addEventListener("scroll", toggleButton);
+
+    // window persiste entre navegaciones (View Transitions): removemos el
+    // handler de scroll anterior por referencia para no acumular listeners.
+    if (window.__toTopScrollHandler) {
+      window.removeEventListener("scroll", window.__toTopScrollHandler);
+    }
+    window.__toTopScrollHandler = toggleButton;
+    window.addEventListener("scroll", toggleButton, { passive: true });
 
     // Verificar posición inicial
     toggleButton();

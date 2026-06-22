@@ -31,7 +31,7 @@ import Layout from "../layouts/Layout.astro";
   <div class="flex items-start justify-center min-h-screen pt-16 relative z-10">
     <div class="text-center">
       <h1
-        class="text-5xl md:text-7xl text-green-500 font-josefinBold animate-pulse"
+        class="text-5xl md:text-7xl text-green-500 font-josefin font-bold animate-pulse"
       >
         🥳 Mensaje Enviado 🥳
       </h1>
@@ -41,7 +41,7 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </div>
 
-  <script type="module">
+  <script is:inline>
     const redirectTime = 5000; // 5 segundos
     setTimeout(() => {
       window.location.href = "/";

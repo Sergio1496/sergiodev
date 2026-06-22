@@ -6,7 +6,6 @@ const links = [
     href: "/",
     text: "Inicio",
   },
-
   {
     href: "/projects",
     text: "Proyectos",
@@ -16,30 +15,31 @@ const links = [
     text: "Blog",
   },
   {
-    href: pathname === "/contacto" ? "/:id" : "/#contact",
+    href: pathname === "/" ? "#contact" : "/#contact",
     text: "Contacto",
   },
 ];
 ---
 
 <header
-  class="py-6 flex flex-row justify-center items-center text-center delay-[0ms] duration-[400ms]"
+  class="py-6 flex justify-end sm:justify-center items-center px-6 sm:px-0 relative z-50"
 >
   <nav
     aria-label="Barra de navegación"
-    class="justify-center items-center text-center rounded-full transition-transform transform font-josefinBold"
+    class="relative flex items-center font-josefin font-bold"
   >
-    <ul class="flex justify-center items-center text-center font-semibold">
+    {/* Links desktop */}
+    <ul class="hidden sm:flex items-center font-semibold">
       {
         links.map(({ href, text }) => (
-          <li class="hover:scale-105">
+          <li class="hover:scale-105 transition-transform">
             <a
               aria-label={text}
               href={href}
               class={
                 pathname === href
                   ? "text-pink-500 hover:text-pink-500 py-4 px-4"
-                  : "text-white hover:text-pink-500 py-4 px-4 "
+                  : "text-white hover:text-pink-500 py-4 px-4 transition-colors duration-200"
               }
             >
               {text}
@@ -48,5 +48,117 @@ const links = [
         ))
       }
     </ul>
+
+    {/* Hamburger button - solo móvil */}
+    <button
+      id="menu-toggle"
+      type="button"
+      class="sm:hidden flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors duration-200 z-90"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg
+        id="icon-open"
+        class="w-6 h-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg
+        id="icon-close"
+        class="w-5 h-5 hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+
+    {/* Menu móvil */}
+    <div
+      id="mobile-menu"
+      class="absolute top-full right-0 mt-2 w-48 py-2 rounded-2xl bg-gray-900 border border-white/10 shadow-2xl hidden sm:hidden z-50"
+    >
+      <ul class="flex flex-col font-semibold">
+        {
+          links.map(({ href, text }) => (
+            <li>
+              <a
+                href={href}
+                class={
+                  pathname === href
+                    ? "block px-6 py-3 text-pink-500"
+                    : "block px-6 py-3 text-white hover:text-pink-500 hover:bg-white/5 transition-colors duration-200"
+                }
+              >
+                {text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </nav>
 </header>
+
+<script is:inline>
+  function initMobileMenu() {
+    const toggle = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    const iconOpen = document.getElementById("icon-open");
+    const iconClose = document.getElementById("icon-close");
+    if (!toggle || !menu || !iconOpen || !iconClose) return;
+
+    function close() {
+      menu.classList.add("hidden");
+      iconOpen.classList.remove("hidden");
+      iconClose.classList.add("hidden");
+      toggle.setAttribute("aria-expanded", "false");
+    }
+
+    function open() {
+      menu.classList.remove("hidden");
+      iconOpen.classList.add("hidden");
+      iconClose.classList.remove("hidden");
+      toggle.setAttribute("aria-expanded", "true");
+    }
+
+    toggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.contains("hidden") ? open() : close();
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && e.target !== toggle) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
+
+    // Cerrar al navegar
+    menu
+      .querySelectorAll("a")
+      .forEach((a) => a.addEventListener("click", close));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initMobileMenu);
+  } else {
+    initMobileMenu();
+  }
+  document.addEventListener("astro:after-swap", initMobileMenu);
+  document.addEventListener("astro:page-load", initMobileMenu);
+</script>

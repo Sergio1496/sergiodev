@@ -6,11 +6,11 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 <section class="flex flex-col relative" aria-label="Contacto">
   <div
     id="contact"
-    class="container items-center mx-auto font-josefinMedium pt-10 px-5 sm:px-10 md:px-10 lg:px-44 delay-[300ms] duration-[600ms] animate-fade-in"
+    class="container items-center mx-auto font-josefin font-medium pt-10 px-5 sm:px-10 md:px-10 lg:px-44 delay-[300ms] duration-[600ms] animate-fade-in"
     transition:animate="fade"
   >
     <h3
-      class="text-white text-center text-4xl md:text-5xl lg:text-6xl font-josefinBold"
+      class="text-white text-center text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
     >
       Contacto
     </h3>
@@ -67,13 +67,13 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
           </div>
           <div class="relative inline-flex group mx-5 my-5">
             <div
-              class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-pink-500 via-[#FF44EC] to-violet-500 rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
+              class="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-pink-500 via-[#FF44EC] to-violet-500 rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
             >
             </div>
             <button
               type="submit"
               id="submitBtn"
-              class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-josefinMedium text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-josefin font-medium text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
               Enviar
 
@@ -107,35 +107,53 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 
 <!-- Script para cargar reCAPTCHA v3 -->
 <script is:inline define:vars={{ RECAPTCHA_SITE_KEY }}>
-  // Cargar la API de reCAPTCHA v3
+  // Cargar la API de reCAPTCHA v3 (una sola vez, solo si hay site key)
   function loadRecaptcha() {
+    if (!RECAPTCHA_SITE_KEY) return;
+    if (document.getElementById("recaptcha-script")) return;
     const script = document.createElement("script");
+    script.id = "recaptcha-script";
     script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
     document.head.appendChild(script);
   }
 
-  // Cuando el documento esté listo
-  document.addEventListener("DOMContentLoaded", () => {
+  function initContactForm() {
     loadRecaptcha();
 
-    // Manejar el envío del formulario
     const form = document.getElementById("contactForm");
+    if (!form || form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
 
     form.addEventListener("submit", function (event) {
+      // Sin reCAPTCHA disponible: dejamos el envío nativo del formulario.
+      if (!RECAPTCHA_SITE_KEY || typeof grecaptcha === "undefined") return;
+
       event.preventDefault();
-
-      // Ejecutar reCAPTCHA
-      grecaptcha.ready(function () {
-        grecaptcha
-          .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
-          .then(function (token) {
-            // Agregar el token al campo oculto
-            document.getElementById("recaptchaResponse").value = token;
-
-            // Enviar el formulario
-            form.submit();
-          });
-      });
+      try {
+        grecaptcha.ready(function () {
+          grecaptcha
+            .execute(RECAPTCHA_SITE_KEY, { action: "submit" })
+            .then(function (token) {
+              const field = document.getElementById("recaptchaResponse");
+              if (field) field.value = token;
+              form.submit();
+            })
+            // Si reCAPTCHA falla, no bloqueamos al usuario: enviamos igual.
+            .catch(function () {
+              form.submit();
+            });
+        });
+      } catch (e) {
+        form.submit();
+      }
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContactForm);
+  } else {
+    initContactForm();
+  }
+  document.addEventListener("astro:after-swap", initContactForm);
+  document.addEventListener("astro:page-load", initContactForm);
 </script>
