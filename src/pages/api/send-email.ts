@@ -46,6 +46,8 @@ async function isRecaptchaValid(token: string | null): Promise<boolean> {
   }
 }
 
+const LOCALES = ["es", "en", "fr", "it"];
+
 export const POST: APIRoute = async ({ request, redirect }) => {
   const formData = await request.formData();
   const name = formData.get("nameOf") as string | null;
@@ -54,9 +56,14 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const message = formData.get("message") as string | null;
   const recaptchaToken = formData.get("g-recaptcha-response") as string | null;
 
+  // Idioma del formulario: prefijo de ruta para redirigir al locale correcto.
+  const localeRaw = (formData.get("locale") as string | null) ?? "es";
+  const locale = LOCALES.includes(localeRaw) ? localeRaw : "es";
+  const prefix = locale === "es" ? "" : `/${locale}`;
+
   // Throw an error if we're missing any of the needed fields.
   if (!name || !replyTo || !subject || !message) {
-    return redirect("/?error=campos#contact");
+    return redirect(`${prefix}/?error=campos#contact`);
   }
 
   if (!(await isRecaptchaValid(recaptchaToken))) {
@@ -85,9 +92,9 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     });
   } catch (error) {
     console.error("Email sending error:", error);
-    return redirect("/?error=envio#contact");
+    return redirect(`${prefix}/?error=envio#contact`);
   }
 
   // Redirect the user to a success page after the email is sent.
-  return redirect("/success");
+  return redirect(`${prefix}/success`);
 };

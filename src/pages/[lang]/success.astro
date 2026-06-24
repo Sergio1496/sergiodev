@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SuccessView from "../../components/views/SuccessView.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "fr" } },
+    { params: { lang: "it" } },
+  ];
+}
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title={t("success.title")}>
+  <SuccessView />
+</Layout>

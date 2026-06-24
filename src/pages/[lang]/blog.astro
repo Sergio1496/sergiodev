@@ -1,0 +1,26 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BlogListView from "../../components/views/BlogListView.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import { pageTransition } from "../../transitions";
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: "en" } },
+    { params: { lang: "fr" } },
+    { params: { lang: "it" } },
+  ];
+}
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout
+  title={`Sergio Expósito Martínez | ${t("blog.title")}`}
+  transition:name="fade"
+  transition:animate={pageTransition}
+>
+  <BlogListView />
+</Layout>

@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Cargar fuentes personalizadas */
+/* Cargar fuentes personalizadas (woff2 para máxima compresión) */
 @font-face {
   font-family: "JosefinSans";
   font-style: normal;
@@ -14,7 +14,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/Josefin/JosefinSans-Medium.ttf") format("truetype");
+  src: url("/fonts/Josefin/JosefinSans-Medium.woff2") format("woff2");
 }
 
 @font-face {
@@ -22,7 +22,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/Josefin/JosefinSans-SemiBold.ttf") format("truetype");
+  src: url("/fonts/Josefin/JosefinSans-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -30,7 +30,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/Josefin/JosefinSans-Bold.ttf") format("truetype");
+  src: url("/fonts/Josefin/JosefinSans-Bold.woff2") format("woff2");
 }
 
 @font-face {
@@ -38,7 +38,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/Mulish/Mulish-Regular.ttf") format("truetype");
+  src: url("/fonts/Mulish/Mulish-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -46,7 +46,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url("/fonts/Mulish/Mulish-Medium.ttf") format("truetype");
+  src: url("/fonts/Mulish/Mulish-Medium.woff2") format("woff2");
 }
 
 @font-face {
@@ -54,7 +54,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url("/fonts/Mulish/Mulish-SemiBold.ttf") format("truetype");
+  src: url("/fonts/Mulish/Mulish-SemiBold.woff2") format("woff2");
 }
 
 @font-face {
@@ -62,15 +62,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/Mulish/Mulish-Bold.ttf") format("truetype");
-}
-
-@font-face {
-  font-family: "Pacifico";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/Pacifico/Pacifico.ttf") format("truetype");
+  src: url("/fonts/Mulish/Mulish-Bold.woff2") format("woff2");
 }
 
 /* Configuración del tema con las últimas características de Tailwind CSS v4 */
@@ -80,10 +72,9 @@
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
 
-  /* Fuentes personalizadas - namespace --font-* de Tailwind v4 (generan font-josefin, font-mulish, font-pacifico automáticamente) */
+  /* Fuentes personalizadas - namespace --font-* de Tailwind v4 (generan font-josefin, font-mulish automáticamente) */
   --font-josefin: "JosefinSans", var(--font-sans);
   --font-mulish: "Mulish", var(--font-sans);
-  --font-pacifico: "Pacifico", cursive;
 
   /* Tamaños de texto mejorados con mejores line-heights */
   --text-xs: 0.75rem;
@@ -194,6 +185,69 @@
 /* Configuración para taos animation */
 html.js :where([class*="taos:"]:not(.taos-init)) {
   visibility: hidden;
+}
+
+/* Respetar la preferencia de movimiento reducido: las animaciones y
+   transiciones se completan al instante (no se eliminan, para que el
+   contenido revelado por scroll siga apareciendo). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Border beam: un haz de luz recorre el borde del elemento.
+   Inspirado en github.com/Jakubantalik/border-beam, en CSS puro. */
+@property --border-beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes border-beam-spin {
+  to {
+    --border-beam-angle: 360deg;
+  }
+}
+
+.border-beam {
+  position: relative;
+  padding: 2px;
+}
+
+.border-beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--border-beam-angle),
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.08) 60%,
+    #ec4899 75%,
+    #ff44ec 85%,
+    #8b5cf6 94%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  /* Máscara que deja visible solo el anillo de 2px (el borde) */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: border-beam-spin 3s linear infinite;
+  pointer-events: none;
+}
+
+/* El haz acelera al pasar el ratón */
+.border-beam:hover::before {
+  animation-duration: 1.4s;
 }
 
 /* Utilidades personalizadas para scrollbar usando layer utilities */

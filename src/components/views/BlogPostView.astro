@@ -1,0 +1,508 @@
+---
+import { type CollectionEntry, render } from "astro:content";
+import { getLangFromUrl, useTranslations, localizePath } from "../../i18n/utils";
+import { dateLocale } from "../../i18n/ui";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+function readingTime(text: string | undefined): string {
+  if (!text) return "1 min";
+  const words = text.trim().split(/\s+/).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min`;
+}
+
+let Content;
+try {
+  const rendered = await render(post);
+  Content = rendered.Content;
+} catch (error) {
+  console.error("Error rendering blog post:", error);
+}
+
+const blogHref = localizePath("/blog", lang);
+const projectsHref = localizePath("/projects", lang);
+const toastCopied = t("post.linkCopied");
+const toastFailed = t("post.actionFailed");
+---
+
+<div class="min-h-screen text-neutral-100 py-12 md:py-16 animate-fade-in relative z-10">
+  <div class="container mx-auto px-4 max-w-5xl">
+    <nav class="mb-12">
+      <a
+        href={blogHref}
+        class="inline-flex items-center px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-all duration-300 backdrop-blur-sm"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        {t("post.back")}
+      </a>
+    </nav>
+
+    <article class="max-w-none">
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="relative w-full h-[40vh] min-h-[300px] max-h-[450px] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+          <img
+            src={post.data.image}
+            alt={post.data.title}
+            class="w-full h-full object-cover opacity-80"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20"></div>
+
+          <div class="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+            <div class="max-w-full">
+              {post.data.tags && (
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {post.data.tags.map((tag) => (
+                    <span class="px-2 py-1 bg-black/40 backdrop-blur-sm border border-white/30 text-white text-xs rounded-lg font-medium">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <h1
+                class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight drop-shadow-lg"
+                transition:name={`title-${post.id}`}
+              >
+                {post.data.title}
+              </h1>
+
+              <div class="flex flex-wrap items-center gap-4 text-white/90">
+                <div class="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-lg px-3 py-1">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <time class="text-xs font-medium">
+                    {new Date(post.data.pubDate).toLocaleDateString(dateLocale[lang], {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </time>
+                </div>
+
+                <div class="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-lg px-3 py-1">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  <span class="text-xs font-medium">{readingTime(post.body)} {t("reading.suffix")}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-lg prose-invert max-w-none bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 lg:p-12">
+          {Content ? <Content /> : <p>{t("post.contentError")}</p>}
+        </div>
+      </div>
+
+      {post.data.projectRelated && (
+        <div class="max-w-4xl mx-auto mt-16">
+          <div class="bg-gradient-to-br from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
+            <div class="flex items-start gap-6">
+              <div class="flex-shrink-0">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                  <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-2">{t("post.relatedTitle")}</h3>
+                <p class="text-gray-300 mb-4">{t("post.relatedDesc")}</p>
+                <a
+                  href={projectsHref}
+                  class="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-white transition-all duration-300 group"
+                >
+                  <span class="font-medium">{t("post.relatedView")} {post.data.projectRelated}</span>
+                  <svg class="w-4 h-4 ml-2 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </article>
+
+    <footer class="max-w-4xl mx-auto mt-16 pt-8 border-t border-white/10">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+        <a
+          href={blogHref}
+          class="inline-flex items-center px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-gray-300 hover:text-white transition-all duration-300 group"
+        >
+          <svg class="w-4 h-4 mr-2 transform transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span class="font-medium">{t("post.moreArticles")}</span>
+        </a>
+
+        <div class="flex items-center gap-4 text-sm text-gray-400">
+          <span>{t("post.liked")}</span>
+          <div class="relative">
+            <button
+              id="single-share-btn"
+              class="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors flex items-center justify-center"
+              aria-haspopup="true"
+              aria-expanded="false"
+              title={t("post.share")}
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M15 8a3 3 0 10-2.83-4H9v2h3.17A3 3 0 1015 8zM5 13a3 3 0 100-6 3 3 0 000 6zm14 0a3 3 0 10-6 0 3 3 0 006 0zM8.5 11.5l7 4.2" />
+              </svg>
+            </button>
+
+            <div
+              id="share-menu"
+              class="hidden absolute right-0 mt-2 w-56 md:w-64 bg-black/70 backdrop-blur-sm border border-white/10 rounded-xl p-3 shadow-lg z-50"
+              role="menu"
+              aria-label={t("post.shareOptions")}
+            >
+              <div class="flex flex-col gap-1">
+                <button class="share-menu-item flex items-center gap-3 px-3 py-2 rounded hover:bg-white/5 transition-colors" data-action="copy">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  {t("post.copyLink")}
+                </button>
+                <button class="share-menu-item flex items-center gap-3 px-3 py-2 rounded hover:bg-white/5 transition-colors" data-action="twitter">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="M17.751 2.96h3.067l-6.7 7.659L22 21.039h-6.172l-4.833-6.32l-5.531 6.32h-3.07l7.167-8.19L2 2.96h6.328l4.37 5.777zm-1.076 16.243h1.7L7.404 4.7H5.58z"/></svg>
+                  Twitter
+                </button>
+                <button class="share-menu-item flex items-center gap-3 px-3 py-2 rounded hover:bg-white/5 transition-colors" data-action="linkedin">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M18 3a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zM8 10a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-5a1 1 0 0 0-1-1m3-1a1 1 0 0 0-1 1v6a1 1 0 1 0 2 0v-3.66c.305-.344.82-.748 1.393-.993c.333-.142.834-.2 1.182-.09a.55.55 0 0 1 .293.188c.052.07.132.226.132.555v4a1 1 0 0 0 2 0v-4c0-.67-.17-1.266-.524-1.744a2.54 2.54 0 0 0-1.301-.907c-.902-.283-1.901-.126-2.568.16a6 6 0 0 0-.623.312A1 1 0 0 0 11 9M8 7a1 1 0 1 0 0 2a1 1 0 0 0 0-2"/></g></svg>
+                  LinkedIn
+                </button>
+                <button class="share-menu-item flex items-center gap-3 px-3 py-2 rounded hover:bg-white/5 transition-colors" data-action="whatsapp">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.23 8.23 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23c-1.48 0-2.93-.39-4.19-1.15l-.3-.17l-3.12.82l.83-3.04l-.2-.32a8.2 8.2 0 0 1-1.26-4.38c.01-4.54 3.7-8.24 8.25-8.24M8.53 7.33c-.16 0-.43.06-.66.31c-.22.25-.87.86-.87 2.07c0 1.22.89 2.39 1 2.56c.14.17 1.76 2.67 4.25 3.73c.59.27 1.05.42 1.41.53c.59.19 1.13.16 1.56.1c.48-.07 1.46-.6 1.67-1.18s.21-1.07.15-1.18c-.07-.1-.23-.16-.48-.27c-.25-.14-1.47-.74-1.69-.82c-.23-.08-.37-.12-.56.12c-.16.25-.64.81-.78.97c-.15.17-.29.19-.53.07c-.26-.13-1.06-.39-2-1.23c-.74-.66-1.23-1.47-1.38-1.72c-.12-.24-.01-.39.11-.5c.11-.11.27-.29.37-.44c.13-.14.17-.25.25-.41c.08-.17.04-.31-.02-.43c-.06-.11-.56-1.35-.77-1.84c-.2-.48-.4-.42-.56-.43c-.14 0-.3-.01-.47-.01"/></svg>
+                  WhatsApp
+                </button>
+                <button class="share-menu-item flex items-center gap-3 px-3 py-2 rounded hover:bg-white/5 transition-colors" data-action="email">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path fill="currentColor" d="m20 8l-8 5l-8-5V6l8 5l8-5m0-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2"/></svg>
+                  {t("post.emailLabel")}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<style is:global>
+  .prose {
+    color: rgb(229 231 235);
+    line-height: 1.8;
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    color: white;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose h1 { font-size: 2.5rem; line-height: 1.2; margin-top: 0; }
+  .prose h2 {
+    font-size: 2rem;
+    line-height: 1.3;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+  }
+  .prose h3 { font-size: 1.5rem; line-height: 1.4; color: rgb(196 181 253); }
+  .prose h4 { font-size: 1.25rem; line-height: 1.5; color: rgb(147 197 253); }
+  .prose p {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    color: rgb(209 213 219);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+  .prose pre {
+    background: linear-gradient(135deg, rgb(17 24 39) 0%, rgb(31 41 55) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    overflow-x: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+  .prose pre::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(59 130 246), rgb(147 51 234), rgb(236 72 153));
+    border-radius: 1rem 1rem 0 0;
+  }
+  .prose code {
+    color: rgb(251 191 36);
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Consolas', monospace;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+  .prose :not(pre) > code {
+    background: rgba(59 130 246 / 0.15);
+    border: 1px solid rgba(59 130 246 / 0.3);
+    color: rgb(147 197 253);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875em;
+    font-weight: 600;
+  }
+  .prose a {
+    color: rgb(96 165 250);
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .prose a:hover { color: rgb(147 197 253); transform: translateY(-1px); }
+  .prose a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, rgb(59 130 246), rgb(147 51 234));
+    transition: width 0.3s ease;
+  }
+  .prose a:hover::after { width: 100%; }
+  .prose ul, .prose ol { margin: 1.5rem 0; padding-left: 2rem; }
+  .prose li { margin-bottom: 0.75rem; color: rgb(209 213 219); line-height: 1.7; }
+  .prose ul > li::marker { color: rgb(96 165 250); }
+  .prose ol > li::marker { color: rgb(96 165 250); font-weight: 600; }
+  .prose blockquote {
+    border-left: 4px solid rgb(59 130 246);
+    background: rgba(59 130 246 / 0.1);
+    border-radius: 0 0.75rem 0.75rem 0;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: rgb(203 213 225);
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+  .prose blockquote::before {
+    content: '"';
+    position: absolute;
+    top: -10px; left: 20px;
+    font-size: 4rem;
+    color: rgb(59 130 246);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+  }
+  .prose img {
+    border-radius: 1rem;
+    margin: 2.5rem auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .prose img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  .prose th, .prose td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .prose th {
+    background: rgba(59 130 246 / 0.1);
+    color: rgb(147 197 253);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .prose td { color: rgb(209 213 219); }
+  .prose hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(59 130 246, 0.5), transparent);
+    margin: 3rem 0;
+  }
+  @media (max-width: 768px) {
+    .prose { font-size: 1rem; }
+    .prose h1 { font-size: 2rem; }
+    .prose h2 { font-size: 1.75rem; }
+    .prose h3 { font-size: 1.5rem; }
+    .prose pre { padding: 1rem; margin: 1.5rem 0; }
+  }
+</style>
+
+<script is:inline define:vars={{ toastCopied, toastFailed }}>
+  function initShare() {
+    const btn = document.getElementById("single-share-btn");
+    const menu = document.getElementById("share-menu");
+    if (!btn || !menu || btn.dataset.shareBound === "true") return;
+    btn.dataset.shareBound = "true";
+
+    const menuItems = menu.querySelectorAll("[data-action]");
+    const url = window.location.href;
+    const titleEl = document.querySelector("article h1");
+    const shareTitle = (titleEl && titleEl.textContent.trim()) || document.title;
+
+    function showToast(msg) {
+      let t = document.getElementById("share-toast");
+      if (!t) {
+        t = document.createElement("div");
+        t.id = "share-toast";
+        t.className = "pointer-events-none fixed left-1/2 bottom-8 -translate-x-1/2 rounded-full bg-white/6 border border-white/10 text-sm text-white px-4 py-2 opacity-0 transition-all duration-300";
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.opacity = "1";
+      t.hidden = false;
+      clearTimeout(window._shareToastTimeout);
+      window._shareToastTimeout = setTimeout(() => {
+        t.style.opacity = "0";
+        setTimeout(() => (t.hidden = true), 300);
+      }, 1800);
+    }
+
+    function openPopup(u) {
+      const w = 600, h = 600;
+      const left = (screen.width / 2) - (w / 2);
+      const top = (screen.height / 2) - (h / 2);
+      window.open(u, "_blank", `toolbar=0,status=0,width=${w},height=${h},top=${top},left=${left}`);
+    }
+
+    async function handleAction(action) {
+      const title = shareTitle;
+      try {
+        if (action === "copy") {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(url);
+            showToast(toastCopied);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = url;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            ta.remove();
+            showToast(toastCopied);
+          }
+          return;
+        }
+        if (action === "twitter") {
+          openPopup(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`);
+          return;
+        }
+        if (action === "linkedin") {
+          openPopup(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
+          return;
+        }
+        if (action === "whatsapp") {
+          openPopup(`https://wa.me/?text=${encodeURIComponent(title + " " + url)}`);
+          return;
+        }
+        if (action === "email") {
+          window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(url)}`;
+          return;
+        }
+      } catch (err) {
+        console.error("Share action error:", err);
+        showToast(toastFailed);
+      }
+    }
+
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", (!expanded).toString());
+      if (!expanded) {
+        menu.classList.remove("hidden");
+        const rect = btn.getBoundingClientRect();
+        const menuRect = menu.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const windowWidth = window.innerWidth;
+        const menuHeight = menuRect.height || 200;
+        const menuWidth = menuRect.width || 224;
+        menu.style.top = '';
+        menu.style.bottom = '';
+        menu.style.left = '';
+        menu.style.right = '';
+        menu.style.marginTop = '';
+        menu.style.marginBottom = '';
+        if (rect.bottom + menuHeight > windowHeight) {
+          menu.style.bottom = '100%';
+          menu.style.marginBottom = '0.5rem';
+        } else {
+          menu.style.top = '100%';
+          menu.style.marginTop = '0.5rem';
+        }
+        if (rect.right + menuWidth > windowWidth) {
+          menu.style.right = 'auto';
+          menu.style.left = '0';
+        } else {
+          menu.style.right = '0';
+          menu.style.left = 'auto';
+        }
+      } else {
+        menu.classList.add("hidden");
+      }
+    });
+
+    menuItems.forEach((mi) => {
+      mi.addEventListener("click", () => {
+        const action = mi.dataset.action;
+        menu.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+        handleAction(action);
+      });
+    });
+  }
+
+  if (!window.__shareGlobalBound) {
+    window.__shareGlobalBound = true;
+    document.addEventListener("click", (ev) => {
+      const menu = document.getElementById("share-menu");
+      const btn = document.getElementById("single-share-btn");
+      if (menu && btn && !menu.contains(ev.target) && ev.target !== btn) {
+        menu.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      }
+    });
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key === "Escape") {
+        const menu = document.getElementById("share-menu");
+        const btn = document.getElementById("single-share-btn");
+        if (menu) menu.classList.add("hidden");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initShare);
+  } else {
+    initShare();
+  }
+  document.addEventListener("astro:page-load", initShare);
+</script>

@@ -1,19 +1,22 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import BlogPostView from "../../components/views/BlogPostView.astro";
+import Layout from "../../../layouts/Layout.astro";
+import BlogPostView from "../../../components/views/BlogPostView.astro";
 import { getCollection } from "astro:content";
-import { pageTransition } from "../../transitions";
+import { pageTransition } from "../../../transitions";
 
 export const prerender = true;
 
 export async function getStaticPaths() {
   const all = await getCollection("blog");
   return all
-    .filter((entry) => entry.id.startsWith("es/"))
-    .map((entry) => ({
-      params: { slug: entry.id.slice(3) },
-      props: { post: entry },
-    }));
+    .filter((entry) => !entry.id.startsWith("es/"))
+    .map((entry) => {
+      const [code, ...rest] = entry.id.split("/");
+      return {
+        params: { lang: code, slug: rest.join("/") },
+        props: { post: entry },
+      };
+    });
 }
 
 const { post } = Astro.props;

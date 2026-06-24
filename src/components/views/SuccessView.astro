@@ -1,0 +1,113 @@
+---
+import { getLangFromUrl, useTranslations, localizePath } from "../../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const homeHref = localizePath("/", lang);
+---
+
+<div class="confetti-container">
+  {
+    Array(30)
+      .fill(null)
+      .map((_, index) => (
+        <div
+          class="confetti"
+          style={`
+            left: ${(index * 37) % 100}%;
+            background-color: hsl(${(index * 53) % 360}, 70%, 60%);
+            opacity: ${0.5 + ((index * 17) % 50) / 100};
+            width: ${4 + ((index * 7) % 8)}px;
+            height: ${4 + ((index * 11) % 8)}px;
+            animation-delay: ${((index * 13) % 50) / 10}s;
+            animation-duration: ${2 + ((index * 19) % 30) / 10}s;
+            transform: rotate(${(index * 47) % 360}deg);
+          `}
+        />
+      ))
+  }
+</div>
+<div id="progress-bar"></div>
+<div class="flex items-start justify-center min-h-screen pt-16 relative z-10">
+  <div class="text-center">
+    <h1
+      class="text-5xl md:text-7xl text-green-500 font-josefin font-bold animate-pulse"
+    >
+      🥳 {t("success.title")} 🥳
+    </h1>
+    <p class="mt-6 text-xl text-gray-300">
+      {t("success.subtitle")}
+    </p>
+  </div>
+</div>
+
+<script is:inline define:vars={{ homeHref }}>
+  const redirectTime = 5000;
+  setTimeout(() => {
+    window.location.href = homeHref;
+  }, redirectTime);
+
+  const progressBar = document.getElementById("progress-bar");
+  if (progressBar) {
+    progressBar.style.transition = `width ${redirectTime}ms linear`;
+    setTimeout(() => {
+      progressBar.style.width = "100%";
+    }, 50);
+  }
+</script>
+
+<style>
+  .confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .confetti {
+    position: absolute;
+    top: -20px;
+    border-radius: 50%;
+    animation-name: confetti-fall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+  }
+  #progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    border-radius: 4px;
+    background-image: linear-gradient(to right, #ff44ec, #8b5cf6);
+    z-index: 1000;
+  }
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+  .animate-pulse {
+    animation: pulse 2s infinite;
+  }
+</style>

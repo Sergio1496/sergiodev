@@ -11,6 +11,9 @@ import Javascript from "../components/svg/Javascript.astro";
 import Php from "../components/svg/Php.astro";
 import Python from "../components/svg/Python.astro";
 import Sql from "../components/svg/Sql.astro";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
 
 const slideAnimation = {
   old: {
@@ -39,8 +42,13 @@ const slide = {
   transition:animate={slide}
 >
   <div class="max-w-screen-xl px-4 pb-8 mx-auto py-16 lg:pb-16">
+    <h2
+      class="text-white text-center pb-10 text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
+    >
+      {t("skills.title")}
+    </h2>
     <div
-      class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 justify-items-center dark:text-gray-400 items-center text-center transition delay-150 duration-300 ease-in-out"
+      class="grid grid-cols-2 gap-8 text-gray-400 sm:gap-12 sm:grid-cols-3 lg:grid-cols-6 justify-items-center items-center text-center transition delay-150 duration-300 ease-in-out"
     >
       <Flutter />
       <Ionic />

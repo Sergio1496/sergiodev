@@ -1,32 +1,28 @@
 ---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <section
   class="flex justify-center items-center sm:py-5 md:py-10 lg:py-10 relative"
-  aria-label="Sobre mí"
+  aria-label={t("about.title")}
 >
   <div class="container font-josefin font-medium mx-auto px-4 py-8 max-w-3xl">
     <h2
       class="text-white text-center pb-8 text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
     >
-      Sobre mí
+      {t("about.title")}
     </h2>
     <p
       class="text-base md:text-lg text-gray-300 font-mulish text-pretty text-center leading-relaxed mb-4"
     >
-      Soy Sergio, desarrollador fullstack especializado en aplicaciones móviles.
-      Desde 2023 trabajo en Hyliacom creando apps multiplataforma con Flutter,
-      además de soluciones de escritorio y servicios backend sobre EasyClient,
-      un framework propio desarrollado en PHP y MySQL.
+      {t("about.p1")}
     </p>
     <p
       class="text-base md:text-lg text-gray-400 font-mulish text-pretty text-center leading-relaxed"
     >
-      Me gusta construir productos cuidados, con buen rendimiento y atención al
-      detalle, y estar siempre aprendiendo nuevas tecnologías —de Dart y
-      TypeScript a React, Angular o Laravel— para aportar lo mejor en cada
-      proyecto.
+      {t("about.p2")}
     </p>
   </div>
 </section>

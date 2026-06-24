@@ -1,8 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+
+export const prerender = true;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const homeHref = localizePath("/", lang);
 ---
 
-<Layout title="Error">
+<Layout title={t("notfound.title")}>
   <div class="items-center flex flex-col justify-center pb-10">
     <svg
       class="animated"
@@ -773,10 +780,10 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <a
-        href="/"
-        title="Volver al inicio"
+        href={homeHref}
+        title={t("notfound.home")}
         class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-josefin font-medium text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
-        aria-label="Volver al inicio"
+        aria-label={t("notfound.home")}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -792,7 +799,7 @@ import Layout from "../layouts/Layout.astro";
               d="M7.16 10.972A7 7 0 0 1 19.5 15.5a1.5 1.5 0 1 0 3 0c0-5.523-4.477-10-10-10a9.973 9.973 0 0 0-7.418 3.295L4.735 6.83a1.5 1.5 0 1 0-2.954.52l1.042 5.91c.069.391.29.74.617.968c.403.282.934.345 1.385.202l5.644-.996a1.5 1.5 0 1 0-.52-2.954l-2.788.491Z"
             ></path></g
           ></svg
-        >Volver
+        >{t("notfound.home")}
       </a>
     </div>
   </div>

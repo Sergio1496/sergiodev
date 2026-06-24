@@ -4,24 +4,103 @@ import Header from "../components/Header.astro";
 import ToTop from "../components/ToTop.astro";
 import "../styles/global.css";
 import { Tooltips } from "astro-tooltips";
+import { getLangFromUrl, useTranslations, localizePath, locales } from "../i18n/utils";
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
 }
 
-const { title } = Astro.props;
+const SITE_URL = "https://sergioem.dev";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { title, description = t("meta.description"), image = "/images/og-default.webp" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+const ogImageURL = new URL(image, SITE_URL);
+
+const ogLocales: Record<string, string> = {
+  es: "es_ES",
+  en: "en_US",
+  fr: "fr_FR",
+  it: "it_IT",
+};
+
+// Alternativas hreflang para SEO multi-idioma (misma página en cada locale).
+const alternates = locales.map((code) => ({
+  code,
+  href: new URL(localizePath(Astro.url.pathname, code), SITE_URL).toString(),
+}));
+
+// Datos estructurados (rich results en Google).
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sergio Expósito Martínez",
+  url: SITE_URL,
+  jobTitle: "Desarrollador Fullstack de aplicaciones móviles",
+  email: "sergioexpositodev@gmail.com",
+  sameAs: [
+    "https://github.com/Sergio1496",
+    "https://www.linkedin.com/in/sergioexposito",
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="es" class="scroll-smooth" transition:animate="none">
+<html lang={lang} class="scroll-smooth" transition:animate="none">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Sergio Expósito Martínez | Desarrollador Fullstack de aplicaciones móviles"
-    />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href={canonicalURL} />
+    {alternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.code} href={alt.href} />
+    ))}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={alternates.find((a) => a.code === "es")?.href}
+    />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Preload de fuentes críticas (encabezados + cuerpo) -->
+    <link
+      rel="preload"
+      href="/fonts/Josefin/JosefinSans-Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/fonts/Mulish/Mulish-Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
+    <!-- Datos estructurados -->
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content={ogLocales[lang]} />
+    <meta property="og:site_name" content="Sergio Expósito" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
     <Tooltips
       interactive={false}
       delay={[15, 50]}
@@ -69,40 +148,6 @@ const { title } = Astro.props;
       <ToTop />
     </div>
     <style is:global>
-      @layer base {
-        @font-face {
-          font-family: "Josefin-semibold";
-          font-display: block;
-          font-weight: 300;
-          src: url("/fonts/Josefin/JosefinSans-SemiBold.ttf") format("trueType");
-        }
-
-        @font-face {
-          font-family: "Josefin-bold";
-          font-display: block;
-          font-weight: 700;
-          src: url("/fonts/Josefin/JosefinSans-Bold.ttf") format("trueType");
-        }
-        @font-face {
-          font-family: "Josefin-medium";
-          font-display: block;
-          font-weight: 500;
-          src: url("/fonts/Josefin/JosefinSans-Medium.ttf") format("trueType");
-        }
-        @font-face {
-          font-family: "Josefin-regular";
-          font-display: block;
-          font-weight: 400;
-          src: url("/fonts/Josefin/JosefinSans-Regular.woff2")
-            format("trueType");
-        }
-        @font-face {
-          font-family: "Mulish-regular";
-          font-display: block;
-          src: url("/fonts/Mulish/Mulish-Regular.ttf") format("trueType");
-        }
-      }
-
       img {
         content-visibility: auto;
       }
@@ -169,13 +214,15 @@ const { title } = Astro.props;
         visibility: hidden !important;
       }
 
-      /* Fondo elegante simplificado */
       /* Asegurar que el contenido tenga el z-index correcto */
-      header,
       main,
       footer {
         position: relative;
         z-index: 10;
+      }
+      header {
+        position: relative;
+        z-index: 50;
       }
     </style>
   </body>

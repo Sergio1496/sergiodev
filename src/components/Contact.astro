@@ -1,6 +1,15 @@
 ---
-// Importaciones y constantes
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
 const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const errorMessages = {
+  campos: t("contact.err.campos"),
+  envio: t("contact.err.envio"),
+  generic: t("contact.err.generic"),
+};
 ---
 
 <section class="flex flex-col relative" aria-label="Contacto">
@@ -9,14 +18,34 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
     class="container items-center mx-auto font-josefin font-medium pt-10 px-5 sm:px-10 md:px-10 lg:px-44 delay-[300ms] duration-[600ms] animate-fade-in"
     transition:animate="fade"
   >
-    <h3
+    <h2
       class="text-white text-center text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
     >
-      Contacto
-    </h3>
+      {t("contact.title")}
+    </h2>
     <div class="pt-5 md:pt-10">
       <div class="p-4 md:p-8">
-        <p class="pb-2">Contacta conmigo por email y charlemos 🙂</p>
+        <p class="pb-2">{t("contact.intro")}</p>
+        <div
+          id="contactError"
+          role="alert"
+          hidden
+          class="flex items-center gap-3 mb-2 px-4 py-3 rounded-md border border-red-500/40 bg-red-500/10 text-red-200 text-sm"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            class="flex-shrink-0"
+          >
+            <path
+              fill="currentColor"
+              d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m1 15h-2v-2h2zm0-4h-2V7h2z"
+            />
+          </svg>
+          <span id="contactErrorText"></span>
+        </div>
         <form
           class="flex flex-col items-center"
           action="/api/send-email"
@@ -31,7 +60,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
                 name="nameOf"
                 required
                 class="my-2 py-2 px-4 rounded-md bg-zinc-800 text-white w-full md:w-1/2 md:mr-2 outline-none focus:ring-2 focus:ring-blue-600"
-                placeholder="Nombre"
+                placeholder={t("contact.name")}
               />
               <input
                 id="send-email__recipient"
@@ -39,7 +68,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
                 type="email"
                 required
                 class="my-2 py-2 px-4 rounded-md bg-zinc-800 text-white w-full md:w-1/2 md:ml-2 outline-none focus:ring-2 focus:ring-blue-600"
-                placeholder="Email"
+                placeholder={t("contact.email")}
               />
             </div>
             <input
@@ -47,13 +76,13 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
               name="subject"
               type="text"
               required
-              placeholder="Asunto"
+              placeholder={t("contact.subject")}
               class="my-2 py-2 px-4 rounded-md bg-zinc-800 text-white w-full outline-none focus:ring-2 focus:ring-blue-600"
             />
             <textarea
               id="send-email__message"
               rows="5"
-              placeholder="Mensaje"
+              placeholder={t("contact.message")}
               name="message"
               required
               class="my-2 py-2 px-4 rounded-md bg-zinc-800 text-white w-full outline-none focus:ring-2 focus:ring-blue-600"
@@ -64,18 +93,16 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
               name="g-recaptcha-response"
               id="recaptchaResponse"
             />
+            <!-- Idioma actual, para redirigir al locale correcto tras enviar -->
+            <input type="hidden" name="locale" value={lang} />
           </div>
-          <div class="relative inline-flex group mx-5 my-5">
-            <div
-              class="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-pink-500 via-[#FF44EC] to-violet-500 rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
-            >
-            </div>
+          <div class="relative inline-flex group rounded-xl border-beam mx-5 my-5">
             <button
               type="submit"
               id="submitBtn"
-              class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-josefin font-medium text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+              class="relative inline-flex items-center justify-center w-full px-8 py-4 text-lg font-josefin font-medium text-white transition-all duration-200 bg-gray-900 hover:bg-gray-800 font-pj rounded-[10px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
             >
-              Enviar
+              {t("contact.send")}
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +133,7 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
 </section>
 
 <!-- Script para cargar reCAPTCHA v3 -->
-<script is:inline define:vars={{ RECAPTCHA_SITE_KEY }}>
+<script is:inline define:vars={{ RECAPTCHA_SITE_KEY, errorMessages }}>
   // Cargar la API de reCAPTCHA v3 (una sola vez, solo si hay site key)
   function loadRecaptcha() {
     if (!RECAPTCHA_SITE_KEY) return;
@@ -149,11 +176,40 @@ const RECAPTCHA_SITE_KEY = import.meta.env.RECAPTCHA_SITE_KEY;
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initContactForm);
-  } else {
-    initContactForm();
+  // Muestra el aviso de error que llega como ?error= tras la redirección del
+  // endpoint. Se ejecuta en cliente para que la página pueda servirse estática.
+  function showFormError() {
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("error");
+    if (!code) return;
+
+    const box = document.getElementById("contactError");
+    const text = document.getElementById("contactErrorText");
+    if (box && text) {
+      text.textContent = errorMessages[code] ?? errorMessages.generic;
+      box.hidden = false;
+    }
+
+    // De un solo uso: quitamos ?error= (conservando el #contact) para que un
+    // refresco no lo muestre de nuevo con el formulario ya vacío.
+    url.searchParams.delete("error");
+    window.history.replaceState(
+      {},
+      "",
+      url.pathname + url.search + url.hash
+    );
   }
-  document.addEventListener("astro:after-swap", initContactForm);
-  document.addEventListener("astro:page-load", initContactForm);
+
+  function initContact() {
+    initContactForm();
+    showFormError();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContact);
+  } else {
+    initContact();
+  }
+  document.addEventListener("astro:after-swap", initContact);
+  document.addEventListener("astro:page-load", initContact);
 </script>

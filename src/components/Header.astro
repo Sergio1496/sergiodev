@@ -1,23 +1,24 @@
 ---
-const pathname = new URL(Astro.request.url).pathname;
+import { getLangFromUrl, useTranslations, localizePath } from "../i18n/utils";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const home = localizePath("/", lang);
+const projectsPath = localizePath("/projects", lang);
+const blogPath = localizePath("/blog", lang);
+const isHome = pathname === home;
+const contactHref = isHome
+  ? "#contact"
+  : `${home === "/" ? "" : home}/#contact`;
 
 const links = [
-  {
-    href: "/",
-    text: "Inicio",
-  },
-  {
-    href: "/projects",
-    text: "Proyectos",
-  },
-  {
-    href: "/blog",
-    text: "Blog",
-  },
-  {
-    href: pathname === "/" ? "#contact" : "/#contact",
-    text: "Contacto",
-  },
+  { href: home, path: home, text: t("nav.home") },
+  { href: projectsPath, path: projectsPath, text: t("nav.projects") },
+  { href: blogPath, path: blogPath, text: t("nav.blog") },
+  { href: contactHref, path: null, text: t("nav.contact") },
 ];
 ---
 
@@ -25,19 +26,19 @@ const links = [
   class="py-6 flex justify-end sm:justify-center items-center px-6 sm:px-0 relative z-50"
 >
   <nav
-    aria-label="Barra de navegación"
-    class="relative flex items-center font-josefin font-bold"
+    aria-label={t("nav.aria")}
+    class="relative flex items-center font-josefin font-bold gap-2"
   >
     {/* Links desktop */}
     <ul class="hidden sm:flex items-center font-semibold">
       {
-        links.map(({ href, text }) => (
+        links.map(({ href, path, text }) => (
           <li class="hover:scale-105 transition-transform">
             <a
               aria-label={text}
               href={href}
               class={
-                pathname === href
+                path && pathname === path
                   ? "text-pink-500 hover:text-pink-500 py-4 px-4"
                   : "text-white hover:text-pink-500 py-4 px-4 transition-colors duration-200"
               }
@@ -49,12 +50,15 @@ const links = [
       }
     </ul>
 
+    {/* Selector de idioma (visible en desktop y móvil) */}
+    <LanguageSwitcher />
+
     {/* Hamburger button - solo móvil */}
     <button
       id="menu-toggle"
       type="button"
       class="sm:hidden flex items-center justify-center w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors duration-200 z-90"
-      aria-label="Abrir menú"
+      aria-label={t("nav.openMenu")}
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
@@ -93,12 +97,12 @@ const links = [
     >
       <ul class="flex flex-col font-semibold">
         {
-          links.map(({ href, text }) => (
+          links.map(({ href, path, text }) => (
             <li>
               <a
                 href={href}
                 class={
-                  pathname === href
+                  path && pathname === path
                     ? "block px-6 py-3 text-pink-500"
                     : "block px-6 py-3 text-white hover:text-pink-500 hover:bg-white/5 transition-colors duration-200"
                 }
