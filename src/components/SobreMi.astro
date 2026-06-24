@@ -10,17 +10,19 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 >
   <div class="container font-josefin font-medium mx-auto px-4 py-8 max-w-3xl">
     <h2
-      class="text-white text-center pb-8 text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
+      class="reveal text-white text-center pb-8 text-4xl md:text-5xl lg:text-6xl font-josefin font-bold"
     >
       {t("about.title")}
     </h2>
     <p
-      class="text-base md:text-lg text-gray-300 font-mulish text-pretty text-center leading-relaxed mb-4"
+      class="reveal text-base md:text-lg text-gray-300 font-mulish text-pretty text-center leading-relaxed mb-4"
+      style="transition-delay: 0.1s"
     >
       {t("about.p1")}
     </p>
     <p
-      class="text-base md:text-lg text-gray-400 font-mulish text-pretty text-center leading-relaxed"
+      class="reveal text-base md:text-lg text-gray-400 font-mulish text-pretty text-center leading-relaxed"
+      style="transition-delay: 0.2s"
     >
       {t("about.p2")}
     </p>

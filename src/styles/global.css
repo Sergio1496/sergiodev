@@ -250,6 +250,49 @@ html.js :where([class*="taos:"]:not(.taos-init)) {
   animation-duration: 1.4s;
 }
 
+/* Reveal al hacer scroll. Mejora progresiva: solo se oculta si hay JS (html.js),
+   así sin JavaScript el contenido se ve igual. El estado animado lo activa
+   IntersectionObserver añadiendo .is-visible. */
+html.js .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+html.js .reveal[data-reveal="left"] {
+  transform: translateX(-32px);
+}
+html.js .reveal[data-reveal="right"] {
+  transform: translateX(32px);
+}
+html.js .reveal[data-reveal="zoom"] {
+  transform: scale(0.94);
+}
+
+html.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Los elementos del fondo se desplazan con el scroll (parallax) */
+[data-parallax] {
+  will-change: transform;
+}
+
+/* Patrón de puntos sutil para el fondo */
+.bg-dots {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.08) 1px,
+    transparent 1.5px
+  );
+  background-size: 30px 30px;
+  background-position: 0 0;
+  will-change: background-position;
+}
+
 /* Utilidades personalizadas para scrollbar usando layer utilities */
 @layer utilities {
   .scrollbar-thin {

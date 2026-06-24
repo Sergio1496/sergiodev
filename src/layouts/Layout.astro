@@ -52,6 +52,8 @@ const personSchema = {
 <html lang={lang} class="scroll-smooth" transition:animate="none">
   <head>
     <meta charset="UTF-8" />
+    {/* Marca JS activo antes de pintar, para que los reveal partan ocultos sin parpadeo */}
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -122,17 +124,14 @@ const personSchema = {
       >
       </div>
 
-      <!-- Efectos de luz ambiental sutiles -->
+      <!-- Patrón de puntos sutil con parallax -->
+      <div data-parallax-dots="0.4" class="absolute inset-0 bg-dots"></div>
+
+      <!-- Un único halo de marca (rosa/violeta) con parallax -->
       <div
-        class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"
-      >
-      </div>
-      <div
-        class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-600/5 rounded-full blur-3xl"
-      >
-      </div>
-      <div
-        class="absolute top-3/4 left-3/4 w-72 h-72 bg-pink-600/4 rounded-full blur-3xl"
+        data-parallax="0.25"
+        class="absolute top-[12%] left-1/2 -ml-[22rem] w-[44rem] h-[44rem] rounded-full blur-3xl"
+        style="background: radial-gradient(circle, rgba(236,72,153,0.13), rgba(139,92,246,0.07) 45%, transparent 70%);"
       >
       </div>
 
@@ -147,6 +146,69 @@ const personSchema = {
       <Footer />
       <ToTop />
     </div>
+
+    {/* Reveal al hacer scroll: añade .is-visible cuando el elemento entra en viewport */}
+    <script is:inline>
+      function initReveal() {
+        document.documentElement.classList.add("js");
+        const els = document.querySelectorAll(".reveal:not(.is-visible)");
+        if (!("IntersectionObserver" in window)) {
+          els.forEach((el) => el.classList.add("is-visible"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -10% 0px", threshold: 0.15 }
+        );
+        els.forEach((el) => io.observe(el));
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initReveal);
+      } else {
+        initReveal();
+      }
+      document.addEventListener("astro:page-load", initReveal);
+    </script>
+
+    {/* Parallax de los focos de luz del fondo: cada uno se mueve a distinta velocidad */}
+    <script is:inline>
+      (function () {
+        if (window.__bgParallax) return;
+        window.__bgParallax = true;
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let ticking = false;
+        function update() {
+          ticking = false;
+          const y = reduce.matches ? 0 : window.scrollY;
+          document.querySelectorAll("[data-parallax]").forEach((b) => {
+            const speed = parseFloat(b.getAttribute("data-parallax")) || 0;
+            b.style.transform = "translate3d(0," + (y * speed).toFixed(1) + "px,0)";
+          });
+          const dots = document.querySelector("[data-parallax-dots]");
+          if (dots) {
+            const f = parseFloat(dots.getAttribute("data-parallax-dots")) || 0;
+            dots.style.backgroundPositionY = (y * f).toFixed(1) + "px";
+          }
+        }
+        function onScroll() {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(update);
+          }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        document.addEventListener("astro:page-load", update);
+        update();
+      })();
+    </script>
     <style is:global>
       img {
         content-visibility: auto;
