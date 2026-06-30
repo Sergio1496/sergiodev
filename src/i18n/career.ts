@@ -52,7 +52,7 @@ export const career: Record<Lang, Job[]> = {
       ],
     },
     {
-      date: "Marzo 2018 - Junio 2018",
+      date: "2018 - 2019",
       role: "Desarrollador de aplicaciones web en Else Systems",
       lines: [
         "Prácticas como desarrollador web en la creación y mantenimiento de sitios en Wordpress, PrestaShop, Angular y Symfony. Funciones principales:",
@@ -118,7 +118,7 @@ export const career: Record<Lang, Job[]> = {
       ],
     },
     {
-      date: "March 2018 - June 2018",
+      date: "2018 - 2019",
       role: "Web Application Developer at Else Systems",
       lines: [
         "Internship as a web developer building and maintaining sites with WordPress, PrestaShop, Angular and Symfony. Main duties:",
@@ -184,7 +184,7 @@ export const career: Record<Lang, Job[]> = {
       ],
     },
     {
-      date: "Mars 2018 - Juin 2018",
+      date: "2018 - 2019",
       role: "Développeur d'applications web chez Else Systems",
       lines: [
         "Stage en tant que développeur web pour la création et la maintenance de sites avec WordPress, PrestaShop, Angular et Symfony. Fonctions principales :",
@@ -250,7 +250,7 @@ export const career: Record<Lang, Job[]> = {
       ],
     },
     {
-      date: "Marzo 2018 - Giugno 2018",
+      date: "2018 - 2019",
       role: "Sviluppatore di applicazioni web presso Else Systems",
       lines: [
         "Tirocinio come sviluppatore web nella creazione e manutenzione di siti con WordPress, PrestaShop, Angular e Symfony. Mansioni principali:",
